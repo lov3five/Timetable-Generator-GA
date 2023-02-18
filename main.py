@@ -1,6 +1,8 @@
 import random
 import time
 
+from prettytable import PrettyTable
+
 
 # Hàm Global
 # Hàm xuất ra number phần tử ngẫu nhiên của list có thể trùng nhau
@@ -132,6 +134,78 @@ class Subject:
     def get_numberOfCredits(self):
         return self._numberOfCredits
 
+class Classes:
+    def __init__(self,stt,subject,course):
+        self._stt = stt
+        self._subject = subject
+        self._course = course
+        self._room = None
+        self._instructors = None
+        self._time = None
+    
+
+    def get_stt(self):
+        return self._stt
+    def get_subject(self):
+        return self._subject
+    def get_course(self):
+        return self._course
+    def get_room(self):
+        return self._room
+    def get_instructors(self):
+        return self._instructors
+    def get_time(self):
+        return self._time
+    def set_room(self,room):
+        self._room = room
+    def set_instructors(self,instructors):
+        self._instructors = instructors
+    def set_time(self,time):
+        self._time = time
+
+    def __str__(self):
+        return "Schedule: " + self._stt + " | " + self._subject.get_name() + " | " + self._course.get_name() + " | " + self._room.get_name() + " | " + self._instructors.get_name() + " | " + self._time.get_time()
+
+class Schedule:
+    def __init__(self,data):
+        self._data = data
+        self._classes = []
+        self._fitness = 0
+        self._numberOfConflicts = 0
+        self._idCLasses = 0
+        
+    def createSchedule(self):
+        for i in range(0,len(self._data.get_subjects())):
+            for j in range(0,len(self._data.get_subjects()[i].get_courses())):
+                newClasses = Classes(self._idCLasses,self._data.get_subjects()[i],self._data.get_subjects()[i].get_courses()[j])
+                self._idCLasses += 1
+                newClasses.set_room(random.choice(self._data.get_rooms()))
+                newClasses.set_instructors(self._data.get_subjects()[i].get_courses()[j].get_instructors())
+                newClasses.set_time(random.choice(self._data.get_timeLessons()))
+                self._classes.append(newClasses)
+        return self._classes
+
+    def calculate_fitness(self):
+        self._numberOfConflicts = 0
+        classes = self.get_classes()
+        for i in range(0,len(classes)):
+            # Kiểm tra xem phòng có đủ chỗ không
+            if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+                self._numberOfConflicts += 1
+
+        return self._numberOfConflicts
+
+    def get_fitness(self):
+        return self._fitness
+
+    def get_numberOfConflicts(self):
+        return self._numberOfConflicts
+    
+    def get_classes(self):
+        return self._classes
+
+
+
 class Data:
     def __init__(self):
         self._rooms = []
@@ -262,6 +336,9 @@ class Data:
     def get_instructors(self):
         return self._instructors
 
+    def get_time_lessons(self):
+        return self._timeLessons
+
     def get_number_of_periods(self):
         return self._timeLessons
 
@@ -278,8 +355,14 @@ class Display:
     def __init__(self,data):
         self._data = data
 
+    def print_test(self,x):
+        x.field_names = ["STT", "Mã môn học", "Tên môn học", "Lớp học phần", "Số tiết", "Số lượng sinh viên", "Giảng viên", "Phòng học"]
+        x.add_row(["1", "MH1", "Toán rời rạc", "LHP1", "3", "370", "GV1", "PH1"])
+        print(x)
+        
     def print_all_data(self):
         self.print_subjects()
+
     def print_subjects(self):
         subjects = self._data.get_subjects()
         print("Danh sách các môn học:")
@@ -289,9 +372,8 @@ class Display:
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Hàm tạo lịch học
-def create_schedule(population_size, lecturers, classrooms, periods):
-    schedule = [ScheduleEntity(random.choice(lecturers), random.choice(
-        classrooms), random.choice(periods)) for i in range(population_size)]
+def create_population_schedule(population_size, data):
+    schedule = [Schedule(data) for i in range(population_size)]
     return schedule
 
 # Hàm đột biến
@@ -301,10 +383,13 @@ def mutate_entity(entity):
     entity.number_of_periods = random.choice(periods)
     return entity
 
+
+
 def main():
+    x = PrettyTable()
     data = Data()
     display = Display(data)
-    display.print_all_data()
+    display.print_test(x)
     # xác định dân số ban đầu của quần thể
     population_size = 100
     # xác định số thế hệ (lần lặp lại) thuật toán
@@ -312,6 +397,9 @@ def main():
 
     best_schedule = None
     best_fitness = 0
+
+    # Tạo quần thể ban đầu
+    create_population_schedule(population_size, data)
     start_time = time.time()
 
     end_time = time.time()

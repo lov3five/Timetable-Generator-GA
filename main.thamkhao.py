@@ -1,10 +1,12 @@
 import random
-# from prettytable import PrettyTable
-# x = PrettyTable()
-# x.field_names = ["City name", "Area", "Population", "Annual Rainfall"]
-# x.add_rows([["Adelaide", 1295, 1158259, 600.5],
-# ["Adelaide", 1295, 1158259, 600.5]])
 
+from prettytable import PrettyTable
+
+x = PrettyTable()
+x.field_names = ["City name", "Area", "Population", "Annual Rainfall"]
+x.add_rows([["Adelaide", 1295, 1158259, 600.5],
+["Adelaide", 1295, 1158259, 600.5]])
+print(x)
 subjects = ["Triển khai hệ thống an ninh",
 "Cấu trúc dữ liệu và giải thuật",
 "Định tuyến và chuyển mạch",

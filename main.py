@@ -112,7 +112,7 @@ class Course:
         return self._instructors
 
     def __str__(self):
-        return "Course: " + self._id + " | " + self._name + " | " + str(self._maxNumberOfStudents) + " | " + str(self._instructors.get_name())
+        return "Course: " + self._id + " | " + self._name + " | " + str(self._maxNumberOfStudents) 
 
 # Học phần(Môn học)
 class Subject:
@@ -164,7 +164,7 @@ class Classes:
         self._time = time
 
     def __str__(self):
-        return "Schedule: " + self._stt + " | " + self._subject.get_name() + " | " + self._course.get_name() + " | " + self._room.get_name() + " | " + self._instructors.get_name() + " | " + self._time.get_time()
+        return "Schedule: " + str(self._stt) + " | " + str(self._subject.get_name()) + " | " + str(self._course.get_name()) + " | " + str(self._room.get_name()) 
 
 class Schedule:
     def __init__(self,data):
@@ -181,10 +181,11 @@ class Schedule:
                 self._idCLasses += 1
                 newClasses.set_room(random.choice(self._data.get_rooms()))
                 newClasses.set_instructors(self._data.get_subjects()[i].get_courses()[j].get_instructors())
-                newClasses.set_time(random.choice(self._data.get_timeLessons()))
+                newClasses.set_time(random.choice(self._data.get_time_lessons()))
                 self._classes.append(newClasses)
-        return self._classes
+        return self
 
+    # Hàm tính độ thích nghi
     def calculate_fitness(self):
         self._numberOfConflicts = 0
         classes = self.get_classes()
@@ -192,7 +193,6 @@ class Schedule:
             # Kiểm tra xem phòng có đủ chỗ không
             if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
                 self._numberOfConflicts += 1
-
         return self._numberOfConflicts
 
     def get_fitness(self):
@@ -203,8 +203,12 @@ class Schedule:
     
     def get_classes(self):
         return self._classes
-
-
+    def __str__(self):
+        value = ""
+        for i in range(0,len(self._classes)):
+            value += str(self._classes[i]) + ","
+        value += str(self._classes[len(self._classes)-1])
+        return value
 
 class Data:
     def __init__(self):
@@ -227,18 +231,27 @@ class Data:
         for i in range(0, len(self.TIMELESSONS)):
             self._timeLessons.append(TimeLessons(
                 self.TIMELESSONS[i][0], self.TIMELESSONS[i][1]))
+        course1 = Course("LHP1", "Toán cao cấp - 15A", 60,[self._instructors[0],self._instructors[1]])
+        course2 = Course("LHP2", "Toán cao cấp - 15B", 70, [self._instructors[0],self._instructors[1],self._instructors[2]])
+        course3 = Course("LHP3", "Kỹ thuật lập trình - 15A",60, [self._instructors[1],self._instructors[2]])
+        course4 = Course("LHP4", "Kỹ thuật lập trình - 15B", 70, [self._instructors[0],self._instructors[2]])
+        self._courses = [course1,course2,course3,course4]
+        subject1 = Subject("MHP1", "Toán cao cấp",[course1,course2], 45)
+        subject2 = Subject("MHP2", "Kỹ thuật lập trình",[course3,course4], 60)
+        self._subjects = [subject1,subject2]
+# -----------------------------------------------
+        # for i in range(0, len(self.SUBJECT)):
+        #     self._courses.append(Course(
+        #         "L" + str(i+1), self.SUBJECT[i][0], 60, random_elements_list(self._instructors, 7)))
 
-        for i in range(0, len(self.SUBJECT)):
-            self._courses.append(Course(
-                "L" + str(i+1), self.SUBJECT[i][0], 60, random_elements_list(self._instructors, 7)))
-
-        for i in range(0, len(self.SUBJECT),3):
-            self._subjects.append(Subject(
-                "MHP" + str(i), self.SUBJECT[i][1], [self._courses[i],self._courses[i+1],self._courses[i+2]], 3))
+        # for i in range(0, len(self.SUBJECT),3):
+        #     self._subjects.append(Subject(
+        #         "MHP" + str(i), self.SUBJECT[i][1], [self._courses[i],self._courses[i+1],self._courses[i+2]], 3))
         
         for i in range(0, len(self._subjects)):
             self._numberCourseOfSubjects += len(self._subjects[i].get_courses())
-
+#------------------------------------------------
+       
     SUBJECT = [
         ['TKHTAN1', 'Triển khai hệ thống an ninh'], ['TKHTAN2', 'Triển khai hệ thống an ninh'], ['TKHTAN3', 'Triển khai hệ thống an ninh'], ['CTDLVGT1', 'Cấu trúc dữ liệu và giải thuật'], ['CTDLVGT2', 'Cấu trúc dữ liệu và giải thuật'], ['CTDLVGT3', 'Cấu trúc dữ liệu và giải thuật'], ['ĐTVCM1', 'Định tuyến và chuyển mạch'], ['ĐTVCM2', 'Định tuyến và chuyển mạch'], ['ĐTVCM3', 'Định tuyến và chuyển mạch'], ['CNM1', 'Công nghệ mới'], ['CNM2', 'Công nghệ mới'], ['CNM3', 'Công nghệ mới'], ['LTĐT1', 'Lý thuyết đồ thị'], ['LTĐT2', 'Lý thuyết đồ thị'], ['LTĐT3', 'Lý thuyết đồ thị'], ['PTVTKHT1', 'Phân tích và thiết kế hệ thống'], ['PTVTKHT2', 'Phân tích và thiết kế hệ thống'], ['PTVTKHT3', 'Phân tích và thiết kế hệ thống'], ['TTNT1', 'Trí tuệ nhân tạo'], ['TTNT2', 'Trí tuệ nhân tạo'], ['TTNT3', 'Trí tuệ nhân tạo'], ['HCSDL1', 'Hệ cơ sở dữ liệu'], ['HCSDL2', 'Hệ cơ sở dữ liệu'], ['HCSDL3', 'Hệ cơ sở dữ liệu'], ['HTVCNW1', 'Hệ thống và công nghệ web'], ['HTVCNW2', 'Hệ thống và công nghệ web'], ['HTVCNW3', 'Hệ thống và công nghệ web'], ['KTLT1', 'Kỹ thuật lập trình'], [
             'KTLT2', 'Kỹ thuật lập trình'], ['KTLT3', 'Kỹ thuật lập trình'], ['XĐYCHT1', 'Xác định yêu cầu hệ thống'], ['XĐYCHT2', 'Xác định yêu cầu hệ thống'], ['XĐYCHT3', 'Xác định yêu cầu hệ thống'], ['MMT1', 'Mạng máy tính'], ['MMT2', 'Mạng máy tính'], ['MMT3', 'Mạng máy tính'], ['CTRR1', 'Cấu trúc rời rạc'], ['CTRR2', 'Cấu trúc rời rạc'], ['CTRR3', 'Cấu trúc rời rạc'], ['KTMT1', 'Kiến trúc máy tính'], ['KTMT2', 'Kiến trúc máy tính'], ['KTMT3', 'Kiến trúc máy tính'], ['PPLNCKH1', 'Phương pháp luận nghiên cứu khoa học'], ['PPLNCKH2', 'Phương pháp luận nghiên cứu khoa học'], ['PPLNCKH3', 'Phương pháp luận nghiên cứu khoa học'], ['LTHĐT1', 'Lập trình hướng đối tượng'], ['LTHĐT2', 'Lập trình hướng đối tượng'], ['LTHĐT3', 'Lập trình hướng đối tượng'], ['TCC21', 'Toán cao cấp 2'], ['TCC22', 'Toán cao cấp 2'], ['TCC23', 'Toán cao cấp 2'], ['LH1', 'Logic học'], ['LH2', 'Logic học'], ['LH3', 'Logic học'], ['VLĐC1', 'Vật lí đại cương'], ['VLĐC2', 'Vật lí đại cương'], ['VLĐC3', 'Vật lí đại cương'], ['TTDN1', 'Thực tập doanh nghiệp'], ['TTDN2', 'Thực tập doanh nghiệp'], ['TTDN3', 'Thực tập doanh nghiệp']
@@ -249,22 +262,6 @@ class Data:
         ["P2", "A2.01", 61, "Lý thuyết"],
         ["P3", "A3.01", 62, "Thực hành"],
         ["P4", "A4.01", 63, "Thực hành"],
-        ["P5", "A5.01", 64, "Lý thuyết"],
-        ["P6", "A6.01", 65, "Lý thuyết"],
-        ["P7", "A7.01", 66, "Thực hành"],
-        ["P8", "A8.01", 67, "Thực hành"],
-        ["P9", "A9.01", 68, "Lý thuyết"],
-        ["P10", "A10.01", 69, "Lý thuyết"],
-        ["P11", "A11.01", 70, "Thực hành"],
-        ["P12", "A12.01", 71, "Thực hành"],
-        ["P13", "A13.01", 72, "Lý thuyết"],
-        ["P14", "A14.01", 73, "Lý thuyết"],
-        ["P15", "A15.01", 74, "Thực hành"],
-        ["P16", "A16.01", 75, "Thực hành"],
-        ["P17", "A17.01", 76, "Lý thuyết"],
-        ["P18", "A18.01", 77, "Lý thuyết"],
-        ["P19", "A19.01", 78, "Thực hành"],
-        ["P20", "A20.01", 79, "Thực hành"]
     ]
 
     INSTRUCTORS = [
@@ -275,59 +272,13 @@ class Data:
         ["GV3", "Nguyễn Văn An", "Nam", "nguyenvanan@gmail.com",
             "0976488312",  "505 Nguyễn Văn Cừ"],
         ["GV4", "Phạm Thị Hoa", "Nữ", "phamthihoa@gmail.com",
-            "0968597831",  "606 Trần Hưng Đạo"],
-        ["GV5", "Đinh Văn Trường", "Nam", "dinhvantruong@gmail.com",
-            "0935724661",  "707 Nguyễn Văn Trỗi"],
-        ["GV6", "Lê Thị Hải", "Nữ", "lethihai@gmail.com",
-            "0954378162",  "808 Trần Quốc Toản"],
-        ["GV7", "Phạm Văn Hiếu", "Nam", "phamvanhieu@gmail.com",
-            "0985461231",  "909 Nguyễn Văn Hữu"],
-        ["GV8", "Nguyễn Thị Hạnh", "Nữ", "nguyenthihanh@gmail.com",
-            "0956789432",  "1010 Nguyễn Trãi"],
-        ["GV9", "Trần Văn Tuấn", "Nam", "tvantuan@gmail.com",
-            "0987412587",  "1111 Trần Đại Nghĩa"],
-        ["GV10", "Đặng Văn Tùng", "Nam", "dangvantung@gmail.com",
-            "0956837452",  "1212 Trần Hưng Đạo"],
-        ["GV11", "Phạm Thị Lộc", "Nữ", "phamthiloc@gmail.com",
-            "0957642913",  "1313 Nguyễn Văn Cừ"],
-        ["GV12", "Trần Văn Đạt", "Nam", "tvantdat@gmail.com",
-            "0968273951",  "1414 Trần Đại Nghĩa"],
-        ["GV13", "Lê Thị Mỹ", "Nữ", "lethimy@gmail.com",
-            "0975836412",  "1515 Nguyễn Văn Trỗi"],
-        ["GV14", "Nguyễn Văn Long", "Nam", "nguyenvanlong@gmail.com",
-            "0964125739",  "1616 Trần Quốc Toản"],
-        ["GV15", "Hoàng Thị Nga", "Nữ", "hoangthinga@gmail.com",
-            "0953781926",  "1717 Nguyễn Văn Hữu"]
+            "0968597831",  "606 Trần Hưng Đạo"]
     ]
 
     TIMELESSONS = [["TG1", "Thứ Hai 06:30 - 09:00"],
                    ["TG2", "Thứ Hai 09:00 - 11:30"],
                    ["TG3", "Thứ Hai 12:30 - 15:00"],
-                   ["TG4", "Thứ Hai 15:00 - 17:30"],
-                   ["TG5", "Thứ Ba 06:30 - 09:00"],
-                   ["TG6", "Thứ Ba 09:00 - 11:30"],
-                   ["TG7", "Thứ Ba 12:30 - 15:00"],
-                   ["TG8", "Thứ Ba 15:00 - 17:30"],
-                   ["TG9", "Thứ Tư 06:30 - 09:00"],
-                   ["TG10", "Thứ Tư 09:00 - 11:30"],
-                   ["TG11", "Thứ Tư 12:30 - 15:00"],
-                   ["TG12", "Thứ Tư 15:00 - 17:30"],
-                   ["TG13", "Thứ Năm 06:30 - 09:00"],
-                   ["TG14", "Thứ Năm 09:00 - 11:30"],
-                   ["TG15", "Thứ Năm 12:30 - 15:00"],
-                   ["TG16", "Thứ Năm 15:00 - 17:30"],
-                   ["TG17", "Thứ Sáu 06:30 - 09:00"],
-                   ["TG18", "Thứ Sáu 09:00 - 11:30"],
-                   ["TG19", "Thứ Sáu 12:30 - 15:00"],
-                   ["TG20", "Thứ Sáu 15:00 - 17:30"],
-                   ["TG21", "Thứ Bảy 06:30 - 09:00"],
-                   ["TG22", "Thứ Bảy 09:00 - 11:30"],
-                   ["TG23", "Thứ Bảy 12:30 - 15:00"],
-                   ["TG24", "Thứ Bảy 15:00 - 17:30"],
-                   ["TG25", "Chủ Nhật 06:30 - 09:00"],
-                   ["TG26", "Chủ Nhật 09:00 - 11:30"],
-                   ["TG27", "Chủ Nhật 12:30 - 15:00"],
-                   ["TG28", "Chủ Nhật 15:00 - 17:30"]]
+                   ["TG4", "Thứ Hai 15:00 - 17:30"]]
     
     
     def get_rooms(self):
@@ -354,56 +305,143 @@ class Data:
 class Display:
     def __init__(self,data):
         self._data = data
-
-    def print_test(self,x):
-        x.field_names = ["STT", "Mã môn học", "Tên môn học", "Lớp học phần", "Số tiết", "Số lượng sinh viên", "Giảng viên", "Phòng học"]
-        x.add_row(["1", "MH1", "Toán rời rạc", "LHP1", "3", "370", "GV1", "PH1"])
-        print(x)
-        
+    
     def print_all_data(self):
         self.print_subjects()
+        self.print_instructors()
+        self.print_courses()
+        self.print_rooms()
+        self.print_time_lessons()
 
     def print_subjects(self):
+        x = PrettyTable()
         subjects = self._data.get_subjects()
-        print("Danh sách các môn học:")
-        for subject in subjects:
-            print(subject._name)
+        print("--- Bảng thông tin môn học ---")
+        x.field_names = ["STT", "Mã môn học", "Tên môn học", "Lớp học phần", "Số tiết"]
+        for i in range (0,len(subjects)):
+            courses = subjects[i].get_courses()
+            tempStr = '['
+            for j in range (0,len(courses)-1):
+                tempStr += courses[j].get_name() + ','
+            tempStr += courses[len(courses)-1].get_name() + ']'
+            x.add_row([str(i+1), subjects[i].get_id(), subjects[i].get_name(), tempStr, str(subjects[i].get_numberOfCredits())])
+        print(x)
+    
+    def print_instructors(self):
+        x = PrettyTable()
+        instructors = self._data.get_instructors()
+        print("--- Bảng thông tin giảng viên ---")
+        x.field_names = ["STT", "Mã giảng viên", "Tên giảng viên", "Giới tính", "Email", "Số điện thoại", "Địa chỉ"]
+        for i in range (0,len(instructors)):
+            x.add_row([str(i+1),instructors[i].get_id(),instructors[i].get_name(),instructors[i].get_sex(),instructors[i].get_email(),instructors[i].get_phone(),instructors[i].get_address()])
+        print(x)
 
+    def print_courses(self):
+        x = PrettyTable()
+        courses = self._data.get_courses()
+        print("--- Bảng thông tin lớp học phần ---")
+        x.field_names = ["STT", "Mã lớp học phần", "Tên lớp học phần", "Số lượng sinh viên", "Giảng viên"]
+        for i in range (0,len(courses)):
+            instructors = courses[i].get_instructors()
+            tempStr = '['
+            for j in range (0,len(instructors)-1):
+                tempStr += instructors[j].get_name() + ','
+            tempStr += instructors[len(instructors)-1].get_name() + ']'
+            x.add_row([str(i+1),courses[i].get_id(),courses[i].get_name(),str(courses[i].get_maxNumberOfStudents()),tempStr])
+        print(x)
+
+    def print_rooms(self):
+        x = PrettyTable()
+        rooms = self._data.get_rooms()
+        print("--- Bảng thông tin phòng học ---")
+        x.field_names = ["STT", "Mã phòng học", "Tên phòng học", "Số lượng chỗ ngồi", "Loại phòng học"]
+        for i in range (0,len(rooms)):
+            x.add_row([str(i+1),rooms[i].get_id(),rooms[i].get_name(),str(rooms[i].get_capacity()),rooms[i].get_type()])
+        print(x)    
+
+    def print_time_lessons(self):
+        x = PrettyTable()
+        timeLessons = self._data.get_time_lessons()
+        print("--- Bảng thông tin thời gian học ---")
+        x.field_names = ["STT", "Mã thời gian học", "Thời gian học"]
+        for i in range (0,len(timeLessons)):
+            x.add_row([str(i+1),timeLessons[i].get_id(),timeLessons[i].get_time()])
+        print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Hàm tạo lịch học
-def create_population_schedule(population_size, data):
-    schedule = [Schedule(data) for i in range(population_size)]
-    return schedule
+class Population:
+    def __init__(self, population_size, data):
+        self._population_size = population_size
+        self._data = data
+        self._schedules = []
+        
+        schedule = [Schedule(data).createSchedule() for i in range(population_size)]
+        self._schedules = schedule
+    def get_schedules(self):
+        return self._schedules
 
-# Hàm đột biến
-def mutate_entity(entity):
-    entity.lecturer = random.choice(lecturers)
-    entity.classroom = random.choice(classrooms)
-    entity.number_of_periods = random.choice(periods)
-    return entity
+class GA:
+    def selection(self, population):
+        # Chọn ngẫu nhiên 2 cá thể trong quần thể
+        individual1 = random.choice(population)
+        individual2 = random.choice(population)
+        # Chọn cá thể có fitness cao hơn
+        if individual1.get_fitness() > individual2.get_fitness():
+            return individual1
+        return individual2
 
+    def crossover(self, parent1, parent2):
+        # Sinh ngẫu nhiên điểm cắt
+        cut_point = random.randint(0, len(parent1.get_classes()) - 1)
+        # Sinh con 1 từ phần đầu của parent1 và phần sau của parent2
+        child1 = parent1.get_classes()[:cut_point] + parent2.get_classes()[cut_point:]
+        # Sinh con 2 từ phần đầu của parent2 và phần sau của parent1
+        child2 = parent2.get_classes()[:cut_point] + parent1.get_classes()[cut_point:]
+        return child1, child2
 
+    def mutation(self, individual):
+        # Sinh ngẫu nhiên điểm cắt
+        cut_point = random.randint(0, len(individual.get_classes()) - 1)
+        # Sinh ngẫu nhiên một giá trị mới cho gene tại điểm cắt
+        individual.get_classes()[cut_point] = random.randint(0, 1)
+        return individual
+
+    def run(self, population):
+        # Chọn 2 cá thể
+        parent1 = self.selection(population)
+        parent2 = self.selection(population)
+        # Sinh con
+        child1, child2 = self.crossover(parent1, parent2)
+        # Sinh ngẫu nhiên một số nguyên trong khoảng [0, 100]
+        mutation_rate = random.randint(0, 100)
+        # Nếu số nguyên sinh ra nhỏ hơn 10 thì thực hiện mutation
+        # Tỷ lệ xảy ra đột biến là 10%
+        if mutation_rate < 10:
+            child1 = self.mutation(child1)
+            child2 = self.mutation(child2)
+        return child1, child2
 
 def main():
-    x = PrettyTable()
     data = Data()
     display = Display(data)
-    display.print_test(x)
+    display.print_all_data()
     # xác định dân số ban đầu của quần thể
-    population_size = 100
+    population_size = 2
     # xác định số thế hệ (lần lặp lại) thuật toán
-    num_generations = 1000
+    num_generations = 0
 
     best_schedule = None
     best_fitness = 0
 
     # Tạo quần thể ban đầu
-    create_population_schedule(population_size, data)
-    start_time = time.time()
+    population = Population(population_size, data).get_schedules()
+    # Khởi tạo và chạy thuật toán GA
+    # ga = GA()
+    # start_time = time.time()
+    # ga.run(population)
+    # end_time = time.time()
 
-    end_time = time.time()
-
+    # print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
 if __name__ == "__main__":
     main()
 

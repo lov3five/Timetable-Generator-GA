@@ -142,7 +142,6 @@ class Classes:
         self._room = None
         self._instructors = None
         self._time = None
-    
 
     def get_stt(self):
         return self._stt
@@ -164,7 +163,7 @@ class Classes:
         self._time = time
 
     def __str__(self):
-        return "Schedule: " + str(self._stt) + " | " + str(self._subject.get_name()) + " | " + str(self._course.get_name()) + " | " + str(self._room.get_name()) 
+        return "Classes: " + str(self._stt) + " | " + str(self._subject.get_name()) + " | " + str(self._course.get_name()) + " | " + str(self._room.get_name()) 
 
 class Schedule:
     def __init__(self,data):
@@ -180,7 +179,7 @@ class Schedule:
                 newClasses = Classes(self._idCLasses,self._data.get_subjects()[i],self._data.get_subjects()[i].get_courses()[j])
                 self._idCLasses += 1
                 newClasses.set_room(random.choice(self._data.get_rooms()))
-                newClasses.set_instructors(self._data.get_subjects()[i].get_courses()[j].get_instructors())
+                newClasses.set_instructors(random.choice(self._data.get_subjects()[i].get_courses()[j].get_instructors()))
                 newClasses.set_time(random.choice(self._data.get_time_lessons()))
                 self._classes.append(newClasses)
         return self
@@ -367,6 +366,20 @@ class Display:
         for i in range (0,len(timeLessons)):
             x.add_row([str(i+1),timeLessons[i].get_id(),timeLessons[i].get_time()])
         print(x)
+
+    def print_schedule(self,schedule):
+        x = PrettyTable()
+        print("--- Bảng thời khóa biểu ---")
+        x.field_names = ["STT", "Môn học(id)", "Lớp học phần(maxNumberOfStudents)", "Room(capacity)", "Giảng viên(id)", "Thời gian(id)"]
+        classes = schedule.get_classes()
+        for i in range (0,len(classes)):
+            x.add_row([str(i+1),
+                       classes[i].get_subject().get_name() + '(' + classes[i].get_subject().get_id()+')', 
+                       classes[i].get_course().get_id() + '(' + str(classes[i].get_course().get_maxNumberOfStudents())+')',
+                       classes[i].get_room().get_name() + '('+ str(classes[i].get_room().get_capacity())+')', 
+                       classes[i].get_instructors().get_name()  + '(' + classes[i].get_instructors().get_id()+')', 
+                       classes[i].get_time().get_time() + '(' + classes[i].get_time().get_id()+')'])
+        print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 class Population:
@@ -419,7 +432,7 @@ class GA:
         if mutation_rate < 10:
             child1 = self.mutation(child1)
             child2 = self.mutation(child2)
-        return child1, child2
+        
 
 def main():
     data = Data()
@@ -440,8 +453,8 @@ def main():
     # start_time = time.time()
     # ga.run(population)
     # end_time = time.time()
-
     # print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
+    display.print_schedule(population[0])
 if __name__ == "__main__":
     main()
 

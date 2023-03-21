@@ -57,3 +57,7 @@ my_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 result = random_elements_no_duplicates(my_array, 10)
 print(result)
 
+# Chọn ngẫu nhiên giáo viên phụ trách
+
+intructors = ['GV1','GV2','GV3']
+random.sample(intructors, random.randint(1, 3))

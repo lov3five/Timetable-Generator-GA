@@ -255,9 +255,16 @@ class Data:
         course14 = Course("LHP14", "Định tuyến và chuyển mạch - 15C", 60,[self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[18],self._instructors[23],self._instructors[28],self._instructors[30]])
         course15 = Course("LHP15", "Công nghệ mới - 15A", 80, [self._instructors[4],self._instructors[6],self._instructors[11],self._instructors[13],self._instructors[16],self._instructors[18],self._instructors[22],self._instructors[29],self._instructors[30]])
         course16 = Course("LHP16", "Công nghệ mới - 15B", 80, [self._instructors[4],self._instructors[6],self._instructors[11],self._instructors[13],self._instructors[16],self._instructors[18],self._instructors[22],self._instructors[29],self._instructors[30]])
+        course17 = Course("LHP17", "Lý thuyết đồ thị - 15A", 70, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
+        course18 = Course("LHP18", "Lý thuyết đồ thị - 15B", 70, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
+        course19 = Course("LHP19", "Lý thuyết đồ thị - 15C", 70, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
+        course20 = Course("LHP20", "Phân tích và thiết kế hệ thống - 15A", 70, [self._instructors[2],self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[11],self._instructors[17],self._instructors[18],self._instructors[28],self._instructors[30]])
+        course21 = Course("LHP21", "Phân tích và thiết kế hệ thống - 15B", 70, [self._instructors[2],self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[11],self._instructors[17],self._instructors[18],self._instructors[28],self._instructors[30]])
+        course22 = Course("LHP22", "Trí tuệ nhân tạo - 15A", 80, [self._instructors[5],self._instructors[7],self._instructors[12],self._instructors[14],self._instructors[18],self._instructors[20],self._instructors[25],self._instructors[26],self._instructors[29]])
+        course23 = Course("LHP23", "Trí tuệ nhân tạo - 15B", 80, [self._instructors[5],self._instructors[7],self._instructors[12],self._instructors[14],self._instructors[18],self._instructors[20],self._instructors[25],self._instructors[26],self._instructors[29]])
         
         
-        self._courses = [course1,course2,course3,course4,course5,course6,course7,course8,course9,course10,course11,course12,course13,course14,course15,course16]
+        self._courses = [course1,course2,course3,course4,course5,course6,course7,course8,course9,course10,course11,course12,course13,course14,course15,course16,course17,course18,course19,course20,course21,course22,course23]
 
 
         subject1 = Subject("MHP1", "Toán cao cấp",[course1,course2], 45)
@@ -266,7 +273,11 @@ class Data:
         subject4 = Subject("MHP4", "Cấu trúc dữ liệu và giải thuật",[course9,course10,course11], 60)
         subject5 = Subject("MHP5", "Định tuyến và chuyển mạch",[course12,course13,course14], 60)
         subject6 = Subject("MHP6", "Công nghệ mới",[course15,course16], 60)
-        self._subjects = [subject1,subject2,subject3,subject4,subject5,subject6]
+        subject7 = Subject("MHP7", "Lý thuyết đồ thị",[course17,course18,course19], 60)
+        subject8 = Subject("MHP8", "Phân tích và thiết kế hệ thống",[course20,course21], 60)
+        subject9 = Subject("MHP9", "Trí tuệ nhân tạo",[course22,course23], 60)
+
+        self._subjects = [subject1,subject2,subject3,subject4,subject5,subject6,subject7,subject8,subject9]
 # -----------------------------------------------
         # for i in range(0, len(self.SUBJECT)):
         #     self._courses.append(Course(

@@ -179,8 +179,9 @@ class Schedule:
         self._fitness = 0
         self._numberOfConflicts = 0
         self._idCLasses = 0
-        
-    def createSchedule(self):
+    
+    # Create individual
+    def create_schedule(self):
         for i in range(0,len(self._data.get_subjects())):
             for j in range(0,len(self._data.get_subjects()[i].get_courses())):
                 newClasses = Classes(self._idCLasses,self._data.get_subjects()[i],self._data.get_subjects()[i].get_courses()[j])
@@ -193,13 +194,36 @@ class Schedule:
 
     # Hàm tính độ thích nghi
     def calculate_fitness(self):
-        self._numberOfConflicts = 0
+        #self._numberOfConflicts = 0
+        self._fitness = 0
         classes = self.get_classes()
-        for i in range(0,len(classes)):
-            # Kiểm tra xem phòng có đủ chỗ không
-            if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
-                self._numberOfConflicts += 1
-        return self._numberOfConflicts
+        # for i in range(0,len(classes)):
+        #     # Kiểm tra xem phòng có đủ chỗ không
+        #     if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+        #         self._numberOfConflicts += 1
+        # return self._numberOfConflicts
+        for i in range(0, len(classes)):
+            for j in range(i+1, len(classes)):
+                # cùng phòng 
+                if(classes[i].get_room().get_id() == classes[j].get_room().get_id()):
+                    # khác thời gian
+                    """ Vì 2 lớp học phần cùng phòng học nhưng khác thời gian thì không bị trùng lịch => Không quan tâm đến giảng viên và môn học """
+                    if(classes[i].get_time().get_id() != classes[j].get_time().get_id()):
+                        self._fitness += 1
+                    # cùng thời gian => trùng lịch
+                # khác phòng
+                else:
+                    # cùng thời gian
+                    if(classes[i].get_time().get_id() == classes[j].get_time().get_id()):
+                        # khác giảng viên 
+                        """ Vì khác giảng viên nên trùng môn học hay khác môn cũng không trùng lịch """
+                        if(classes[i].get_instructors().get_id() != classes[j].get_instructors().get_id()):
+                            self._fitness += 1
+                        # cùng giảng viên => trùng lịch 
+                    # khác thời gian 
+                    else:
+                        self._fitness += 1
+        return self._fitness
 
     def get_fitness(self):
         return self._fitness
@@ -557,6 +581,7 @@ class GA:
         if schedule1.get_fitness() > schedule2.get_fitness():
             return schedule1
         return schedule2
+    
 
     def crossover(self, parent1, parent2):
         schedule_crossover = Schedule(data).createSchedule()

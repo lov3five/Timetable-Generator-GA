@@ -170,7 +170,7 @@ class Classes:
         self._time = time
 
     def __str__(self):
-        return "Classes: " + str(self._stt) + " | " + str(self._subject.get_name()) + " | " + str(self._course.get_name()) + " | " + str(self._room.get_name()) 
+        return str(self._subject.get_id()) 
 
 class Schedule:
     def __init__(self,data):
@@ -195,6 +195,7 @@ class Schedule:
     # Hàm tính độ thích nghi
     def calculate_fitness(self):
         #self._numberOfConflicts = 0
+        self._isFitnessChanged = True
         self._fitness = 0
         classes = self.get_classes()
         # for i in range(0,len(classes)):
@@ -226,12 +227,16 @@ class Schedule:
         return self._fitness
 
     def get_fitness(self):
+        if(self._isFitnessChanged == True):
+            self._fitness = self.calculate_fitness()
+            self._isFitnessChanged = False
         return self._fitness
 
     def get_numberOfConflicts(self):
         return self._numberOfConflicts
     
     def get_classes(self):
+        self._isFitnessChanged = True
         return self._classes
     def __str__(self):
         value = ""
@@ -571,15 +576,19 @@ class Display:
     def print_generation(self,population):
         x = PrettyTable()
         print("--- Bảng thế hệ (fitness) ---")
-        x.field_names = ["STT", "Thời khóa biểu", "Fitness",'Conflicts']
-        population = population.get_schedules()
+        x.field_names = ["Thời khóa biểu([#])", "Fitness",'Conflicts']
+        for i in range (0, len(population)):
+            classes = population[i].get_classes()
+            x.add_row([str(i),population[i].get_fitness(),"#"])
+            # [str(x) for x in  classes]
+        print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 class Population:
     def __init__(self, population_size):
         self._population_size = population_size
         self._schedules = []
-        schedule = [Schedule(data).createSchedule() for i in range(population_size)]
+        schedule = [Schedule(data).create_schedule() for i in range(population_size)]
         self._schedules = schedule
     def get_schedules(self):
         return self._schedules
@@ -594,7 +603,6 @@ class GA:
             return schedule1
         return schedule2
     
-
     def crossover(self, parent1, parent2):
         schedule_crossover = Schedule(data).createSchedule()
         # Sinh ngẫu nhiên điểm cắt
@@ -634,7 +642,7 @@ data = Data()
 def main():
     display = Display(data)
     # xác định dân số ban đầu của quần thể
-    population_size = 2
+    population_size = 20
     # xác định số thế hệ (lần lặp lại) thuật toán
     num_generations = 0
     print('Số thế hệ: ', num_generations)
@@ -656,6 +664,7 @@ def main():
     test = schedules[0].get_classes()[1]
     # print(schedules[0].get_classes()[random.randint(0,len(schedules[0].get_classes()))][:2] + schedules[1].get_classes()[random.randint(0,len(schedules[0].get_classes()))][2:])
     display.print_schedule(schedules[0])
+    display.print_generation(schedules)
 if __name__ == "__main__":
     main()
 

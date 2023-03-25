@@ -193,42 +193,62 @@ class Schedule:
         return self
 
     # Hàm tính độ thích nghi
+    # def calculate_fitness(self):
+    #     #self._numberOfConflicts = 0
+    #     self._isFitnessChanged = True
+    #     self._fitness = 0
+    #     classes = self.get_classes()
+    #     # for i in range(0,len(classes)):
+    #     #     # Kiểm tra xem phòng có đủ chỗ không
+    #     #     if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+    #     #         self._numberOfConflicts += 1
+    #     # return self._numberOfConflicts
+    #     for i in range(0, len(classes)):
+    #         for j in range(i+1, len(classes)):
+    #             # cùng phòng 
+    #             if(classes[i].get_room().get_id() == classes[j].get_room().get_id()):
+    #                 # khác thời gian
+    #                 """ Vì 2 lớp học phần cùng phòng học nhưng khác thời gian thì không bị trùng lịch => Không quan tâm đến giảng viên và môn học """
+    #                 if(classes[i].get_time().get_id() != classes[j].get_time().get_id()):
+    #                     self._fitness += 1
+    #                 # cùng thời gian => trùng lịch
+    #             # khác phòng
+    #             else:
+    #                 # cùng thời gian
+    #                 if(classes[i].get_time().get_id() == classes[j].get_time().get_id()):
+    #                     # khác giảng viên 
+    #                     """ Vì khác giảng viên nên trùng môn học hay khác môn cũng không trùng lịch """
+    #                     if(classes[i].get_instructors().get_id() != classes[j].get_instructors().get_id()):
+    #                         self._fitness += 1
+    #                     # cùng giảng viên => trùng lịch 
+    #                 # khác thời gian 
+    #                 else:
+    #                     self._fitness += 1
+    #     return self._fitness
+    
     def calculate_fitness(self):
-        #self._numberOfConflicts = 0
-        self._isFitnessChanged = True
-        self._fitness = 0
+        self._numberOfConflicts = 0
         classes = self.get_classes()
-        # for i in range(0,len(classes)):
-        #     # Kiểm tra xem phòng có đủ chỗ không
-        #     if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
-        #         self._numberOfConflicts += 1
-        # return self._numberOfConflicts
         for i in range(0, len(classes)):
+            # Kiểm tra logic sức chứa phòng học và số lượng sinh viên
+            if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+                self._numberOfConflicts += 1
             for j in range(i+1, len(classes)):
-                # cùng phòng 
-                if(classes[i].get_room().get_id() == classes[j].get_room().get_id()):
-                    # khác thời gian
-                    """ Vì 2 lớp học phần cùng phòng học nhưng khác thời gian thì không bị trùng lịch => Không quan tâm đến giảng viên và môn học """
-                    if(classes[i].get_time().get_id() != classes[j].get_time().get_id()):
-                        self._fitness += 1
-                    # cùng thời gian => trùng lịch
-                # khác phòng
-                else:
-                    # cùng thời gian
-                    if(classes[i].get_time().get_id() == classes[j].get_time().get_id()):
-                        # khác giảng viên 
-                        """ Vì khác giảng viên nên trùng môn học hay khác môn cũng không trùng lịch """
-                        if(classes[i].get_instructors().get_id() != classes[j].get_instructors().get_id()):
-                            self._fitness += 1
-                        # cùng giảng viên => trùng lịch 
-                    # khác thời gian 
-                    else:
-                        self._fitness += 1
-        return self._fitness
+                # Kiểm tra trùng lịch giảng dạy
+                if(classes[i].get_instructors() == classes[j].get_instructors() and classes[i].get_time() == classes[j].get_time()):
+                    self._numberOfConflicts += 1
+                # Kiểm tra trùng lịch học
+                if(classes[i].get_course() == classes[j].get_course() and classes[i].get_time() == classes[j].get_time()):
+                    self._numberOfConflicts += 1
+                # Kiểm tra trùng lịch giảng dạy và học
+                if(classes[i].get_room() == classes[j].get_room() and classes[i].get_time() == classes[j].get_time()):
+                    if(classes[i].get_course() != classes[j].get_course()):
+                        self._numberOfConflicts += 1
+        return 1/(1.0*self._numberOfConflicts + 1)
 
     def get_fitness(self):
         if(self._isFitnessChanged == True):
-            self._fitness = self.calculate_fitness()
+            self._fitness = round(self.calculate_fitness(), 3)
             self._isFitnessChanged = False
         return self._fitness
 
@@ -579,7 +599,7 @@ class Display:
         x.field_names = ["Thời khóa biểu([#])", "Fitness",'Conflicts']
         for i in range (0, len(population)):
             classes = population[i].get_classes()
-            x.add_row([str(i),population[i].get_fitness(),"#"])
+            x.add_row([str(i),population[i].get_fitness(),population[i].get_numberOfConflicts()])
             # [str(x) for x in  classes]
         print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

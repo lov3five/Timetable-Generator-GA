@@ -2,6 +2,7 @@ import random
 import time
 
 from prettytable import PrettyTable
+
 # note 
 # 1 học kỳ 30 môn
 # giảng viên 50 giảng viên
@@ -170,7 +171,7 @@ class Classes:
         self._time = time
 
     def __str__(self):
-        return str(self._subject.get_id()) 
+        return str(self._subject.get_id())+","+str(self._course.get_id())+","+str(self._room.get_id())+","+str(self._instructors.get_id())+","+str(self._time.get_id())
 
 class Schedule:
     def __init__(self,data):
@@ -244,6 +245,7 @@ class Schedule:
                 if(classes[i].get_room() == classes[j].get_room() and classes[i].get_time() == classes[j].get_time()):
                     if(classes[i].get_course() != classes[j].get_course()):
                         self._numberOfConflicts += 1
+        # Đảm bảo cho giá trị fitness luôn nằm trong khoảng từ 0-1
         return 1/(1.0*self._numberOfConflicts + 1)
 
     def get_fitness(self):
@@ -346,8 +348,8 @@ class Data:
         course56 = Course("LHP56", "Tiếng Việt thực hành - 15B", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
         course57 = Course("LHP57", "Tiếng Việt thực hành - 15C", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
         course58 = Course("LHP58", "Quản trị học - 15A", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
-        course59 = Course("LHP58", "Quản trị học - 15B", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
-        course60 = Course("LHP58", "Quản trị học - 15C", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course59 = Course("LHP59", "Quản trị học - 15B", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course60 = Course("LHP60", "Quản trị học - 15C", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
         
         
         
@@ -596,13 +598,13 @@ class Display:
     def print_generation(self,population):
         x = PrettyTable()
         print("--- Bảng thế hệ (fitness) ---")
-        x.field_names = ["STT", "Fitness",'Conflicts',"Thời khóa biểu([#])"]
+        x.field_names = ["STT","Fitness","Conflicts","Thời khóa biểu([Classes])"]
         for i in range (0, len(population)):
             classes = population[i].get_classes()
-            x.add_row([str(i),population[i].get_fitness(),population[i].get_numberOfConflicts()])
+            x.add_row([str(i),population[i].get_fitness(),population[i].get_numberOfConflicts(),[str(x) for x in classes]])
             # [str(x) for x in  classes]
-
-        x.max_width["Thời khóa biểu([#])"] = 100
+        x.align["Thời khóa biểu([Classes])"] = "l"
+        x.max_width["Thời khóa biểu([Classes])"] = 120
         print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -683,7 +685,6 @@ def main():
     # end_time = time.time()
     # print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
     # display.print_schedule(best_schedule)
-    test = schedules[0].get_classes()[1]
     # print(schedules[0].get_classes()[random.randint(0,len(schedules[0].get_classes()))][:2] + schedules[1].get_classes()[random.randint(0,len(schedules[0].get_classes()))][2:])
     display.print_schedule(schedules[0])
     display.print_generation(schedules)

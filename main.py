@@ -192,8 +192,28 @@ class Schedule:
                 self._classes.append(newClasses)
         return self
 
-    # Hàm tính độ thích nghi
     def calculate_fitness(self):
+        self._numberOfConflicts = 0
+        classes = self.get_classes()
+        for i in range(0, len(classes)):
+            # Kiểm tra logic sức chứa phòng học và số lượng sinh viên
+            if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+                self._numberOfConflicts += 1
+            for j in range(i+1, len(classes)):
+                # Kiểm tra trùng lịch giảng dạy
+                if(classes[i].get_instructors() == classes[j].get_instructors() and classes[i].get_time() == classes[j].get_time()):
+                    self._numberOfConflicts += 1
+                # Kiểm tra trùng lịch học
+                if(classes[i].get_course() == classes[j].get_course() and classes[i].get_time() == classes[j].get_time()):
+                    self._numberOfConflicts += 1
+                # Kiểm tra trùng lịch giảng dạy và học
+                if(classes[i].get_room() == classes[j].get_room() and classes[i].get_time() == classes[j].get_time()):
+                    if(classes[i].get_course() != classes[j].get_course()):
+                        self._numberOfConflicts += 1
+        return 1/(1.0*self._numberOfConflicts + 1)
+
+    # Hàm tính độ thích nghi
+    def calculate_fitness1(self):
         #self._numberOfConflicts = 0
         self._isFitnessChanged = True
         self._fitness = 0
@@ -228,7 +248,7 @@ class Schedule:
 
     def get_fitness(self):
         if(self._isFitnessChanged == True):
-            self._fitness = self.calculate_fitness()
+            self._fitness = round(self.calculate_fitness(),3)
             self._isFitnessChanged = False
         return self._fitness
 
@@ -576,11 +596,13 @@ class Display:
     def print_generation(self,population):
         x = PrettyTable()
         print("--- Bảng thế hệ (fitness) ---")
-        x.field_names = ["Thời khóa biểu([#])", "Fitness",'Conflicts']
+        x.field_names = ["STT", "Fitness",'Conflicts',"Thời khóa biểu([#])"]
         for i in range (0, len(population)):
             classes = population[i].get_classes()
-            x.add_row([str(i),population[i].get_fitness(),"#"])
+            x.add_row([str(i),population[i].get_fitness(),"#",[str(x) for x in  classes]])
             # [str(x) for x in  classes]
+
+        x.max_width["Thời khóa biểu([#])"] = 100
         print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

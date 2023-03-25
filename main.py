@@ -170,7 +170,7 @@ class Classes:
         self._time = time
 
     def __str__(self):
-        return "Classes: " + str(self._stt) + " | " + str(self._subject.get_name()) + " | " + str(self._course.get_name()) + " | " + str(self._room.get_name()) 
+        return str(self._subject.get_id()) 
 
 class Schedule:
     def __init__(self,data):
@@ -193,45 +193,70 @@ class Schedule:
         return self
 
     # Hàm tính độ thích nghi
+    # def calculate_fitness(self):
+    #     #self._numberOfConflicts = 0
+    #     self._isFitnessChanged = True
+    #     self._fitness = 0
+    #     classes = self.get_classes()
+    #     # for i in range(0,len(classes)):
+    #     #     # Kiểm tra xem phòng có đủ chỗ không
+    #     #     if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+    #     #         self._numberOfConflicts += 1
+    #     # return self._numberOfConflicts
+    #     for i in range(0, len(classes)):
+    #         for j in range(i+1, len(classes)):
+    #             # cùng phòng 
+    #             if(classes[i].get_room().get_id() == classes[j].get_room().get_id()):
+    #                 # khác thời gian
+    #                 """ Vì 2 lớp học phần cùng phòng học nhưng khác thời gian thì không bị trùng lịch => Không quan tâm đến giảng viên và môn học """
+    #                 if(classes[i].get_time().get_id() != classes[j].get_time().get_id()):
+    #                     self._fitness += 1
+    #                 # cùng thời gian => trùng lịch
+    #             # khác phòng
+    #             else:
+    #                 # cùng thời gian
+    #                 if(classes[i].get_time().get_id() == classes[j].get_time().get_id()):
+    #                     # khác giảng viên 
+    #                     """ Vì khác giảng viên nên trùng môn học hay khác môn cũng không trùng lịch """
+    #                     if(classes[i].get_instructors().get_id() != classes[j].get_instructors().get_id()):
+    #                         self._fitness += 1
+    #                     # cùng giảng viên => trùng lịch 
+    #                 # khác thời gian 
+    #                 else:
+    #                     self._fitness += 1
+    #     return self._fitness
+    
     def calculate_fitness(self):
-        #self._numberOfConflicts = 0
-        self._fitness = 0
+        self._numberOfConflicts = 0
         classes = self.get_classes()
-        # for i in range(0,len(classes)):
-        #     # Kiểm tra xem phòng có đủ chỗ không
-        #     if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
-        #         self._numberOfConflicts += 1
-        # return self._numberOfConflicts
         for i in range(0, len(classes)):
+            # Kiểm tra logic sức chứa phòng học và số lượng sinh viên
+            if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
+                self._numberOfConflicts += 1
             for j in range(i+1, len(classes)):
-                # cùng phòng 
-                if(classes[i].get_room().get_id() == classes[j].get_room().get_id()):
-                    # khác thời gian
-                    """ Vì 2 lớp học phần cùng phòng học nhưng khác thời gian thì không bị trùng lịch => Không quan tâm đến giảng viên và môn học """
-                    if(classes[i].get_time().get_id() != classes[j].get_time().get_id()):
-                        self._fitness += 1
-                    # cùng thời gian => trùng lịch
-                # khác phòng
-                else:
-                    # cùng thời gian
-                    if(classes[i].get_time().get_id() == classes[j].get_time().get_id()):
-                        # khác giảng viên 
-                        """ Vì khác giảng viên nên trùng môn học hay khác môn cũng không trùng lịch """
-                        if(classes[i].get_instructors().get_id() != classes[j].get_instructors().get_id()):
-                            self._fitness += 1
-                        # cùng giảng viên => trùng lịch 
-                    # khác thời gian 
-                    else:
-                        self._fitness += 1
-        return self._fitness
+                # Kiểm tra trùng lịch giảng dạy
+                if(classes[i].get_instructors() == classes[j].get_instructors() and classes[i].get_time() == classes[j].get_time()):
+                    self._numberOfConflicts += 1
+                # Kiểm tra trùng lịch học
+                if(classes[i].get_course() == classes[j].get_course() and classes[i].get_time() == classes[j].get_time()):
+                    self._numberOfConflicts += 1
+                # Kiểm tra trùng lịch giảng dạy và học
+                if(classes[i].get_room() == classes[j].get_room() and classes[i].get_time() == classes[j].get_time()):
+                    if(classes[i].get_course() != classes[j].get_course()):
+                        self._numberOfConflicts += 1
+        return 1/(1.0*self._numberOfConflicts + 1)
 
     def get_fitness(self):
+        if(self._isFitnessChanged == True):
+            self._fitness = round(self.calculate_fitness(), 3)
+            self._isFitnessChanged = False
         return self._fitness
 
     def get_numberOfConflicts(self):
         return self._numberOfConflicts
     
     def get_classes(self):
+        self._isFitnessChanged = True
         return self._classes
     def __str__(self):
         value = ""
@@ -314,12 +339,21 @@ class Data:
         course49 = Course("LHP49", "Logic học - 15A", 80, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
         course50 = Course("LHP50", "Logic học - 15B", 80, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
         course51 = Course("LHP51", "Logic học - 15C", 80, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
-
+        course52 = Course("LHP52", "Thực tập doanh nghiệp - 15A", 70, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
+        course53 = Course("LHP53", "Thực tập doanh nghiệp - 15B", 70, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
+        course54 = Course("LHP54", "Thực tập doanh nghiệp - 15C", 70, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
+        course55 = Course("LHP55", "Tiếng Việt thực hành - 15A", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
+        course56 = Course("LHP56", "Tiếng Việt thực hành - 15B", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
+        course57 = Course("LHP57", "Tiếng Việt thực hành - 15C", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
+        course58 = Course("LHP58", "Quản trị học - 15A", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course59 = Course("LHP58", "Quản trị học - 15B", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course60 = Course("LHP58", "Quản trị học - 15C", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
         
         
         
         
-        self._courses = [course1,course2,course3,course4,course5,course6,course7,course8,course9,course10,course11,course12,course13,course14,course15,course16,course17,course18,course19,course20,course21,course22,course23,course24,course25,course26,course27,course28,course29,course30,course31,course32,course33,course34,course35,course36,course37,course38,course39,course40,course41,course42,course43,course44,course45,course46,course47,course48,course49,course50,course51]
+        
+        self._courses = [course1,course2,course3,course4,course5,course6,course7,course8,course9,course10,course11,course12,course13,course14,course15,course16,course17,course18,course19,course20,course21,course22,course23,course24,course25,course26,course27,course28,course29,course30,course31,course32,course33,course34,course35,course36,course37,course38,course39,course40,course41,course42,course43,course44,course45,course46,course47,course48,course49,course50,course51,course52,course53,course54,course55,course56,course57,course58,course59,course60]
 
         subject1 = Subject("MHP1", "Toán cao cấp",[course1,course2], 45)
         subject2 = Subject("MHP2", "Kỹ thuật lập trình",[course3,course4,course5], 60)
@@ -340,8 +374,11 @@ class Data:
         subject17 = Subject("MHP17", "Cơ sở dữ liệu",[course44,course45,course46], 60)
         subject18 = Subject("MHP18", "Hệ điều hành",[course47,course48], 60)
         subject19 = Subject("MHP19", "Logic học",[course49,course50,course51], 60)
+        subject20 = Subject("MHP20", "Thực tập doanh nghiệp",[course52,course53,course54], 90)
+        subject21 = Subject("MHP21", "Tiếng Việt thực hành",[course55,course56,course57], 60)
+        subject22 = Subject("MHP22", "Quản trị học",[course58,course59,course60], 60)
 
-        self._subjects = [subject1,subject2,subject3,subject4,subject5,subject6,subject7,subject8,subject9,subject10,subject11,subject12,subject13,subject14,subject15,subject16,subject17,subject18,subject19]
+        self._subjects = [subject1,subject2,subject3,subject4,subject5,subject6,subject7,subject8,subject9,subject10,subject11,subject12,subject13,subject14,subject15,subject16,subject17,subject18,subject19,subject20,subject21,subject22]
 # -----------------------------------------------
         # for i in range(0, len(self.SUBJECT)):
         #     self._courses.append(Course(
@@ -559,15 +596,19 @@ class Display:
     def print_generation(self,population):
         x = PrettyTable()
         print("--- Bảng thế hệ (fitness) ---")
-        x.field_names = ["STT", "Thời khóa biểu", "Fitness",'Conflicts']
-        population = population.get_schedules()
+        x.field_names = ["Thời khóa biểu([#])", "Fitness",'Conflicts']
+        for i in range (0, len(population)):
+            classes = population[i].get_classes()
+            x.add_row([str(i),population[i].get_fitness(),population[i].get_numberOfConflicts()])
+            # [str(x) for x in  classes]
+        print(x)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 class Population:
     def __init__(self, population_size):
         self._population_size = population_size
         self._schedules = []
-        schedule = [Schedule(data).createSchedule() for i in range(population_size)]
+        schedule = [Schedule(data).create_schedule() for i in range(population_size)]
         self._schedules = schedule
     def get_schedules(self):
         return self._schedules
@@ -582,7 +623,6 @@ class GA:
             return schedule1
         return schedule2
     
-
     def crossover(self, parent1, parent2):
         schedule_crossover = Schedule(data).createSchedule()
         # Sinh ngẫu nhiên điểm cắt
@@ -622,7 +662,7 @@ data = Data()
 def main():
     display = Display(data)
     # xác định dân số ban đầu của quần thể
-    population_size = 2
+    population_size = 20
     # xác định số thế hệ (lần lặp lại) thuật toán
     num_generations = 0
     print('Số thế hệ: ', num_generations)
@@ -644,6 +684,7 @@ def main():
     test = schedules[0].get_classes()[1]
     # print(schedules[0].get_classes()[random.randint(0,len(schedules[0].get_classes()))][:2] + schedules[1].get_classes()[random.randint(0,len(schedules[0].get_classes()))][2:])
     display.print_schedule(schedules[0])
+    display.print_generation(schedules)
 if __name__ == "__main__":
     main()
 

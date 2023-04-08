@@ -195,40 +195,7 @@ class Schedule:
         return self
     def set_classes(self,classes):
         self._classes = classes
-    # Hàm tính độ thích nghi
-    # def calculate_fitness(self):
-    #     #self._numberOfConflicts = 0
-    #     self._isFitnessChanged = True
-    #     self._fitness = 0
-    #     classes = self.get_classes()
-    #     # for i in range(0,len(classes)):
-    #     #     # Kiểm tra xem phòng có đủ chỗ không
-    #     #     if(classes[i].get_room().get_capacity() < classes[i].get_course().get_maxNumberOfStudents()):
-    #     #         self._numberOfConflicts += 1
-    #     # return self._numberOfConflicts
-    #     for i in range(0, len(classes)):
-    #         for j in range(i+1, len(classes)):
-    #             # cùng phòng 
-    #             if(classes[i].get_room().get_id() == classes[j].get_room().get_id()):
-    #                 # khác thời gian
-    #                 """ Vì 2 lớp học phần cùng phòng học nhưng khác thời gian thì không bị trùng lịch => Không quan tâm đến giảng viên và môn học """
-    #                 if(classes[i].get_time().get_id() != classes[j].get_time().get_id()):
-    #                     self._fitness += 1
-    #                 # cùng thời gian => trùng lịch
-    #             # khác phòng
-    #             else:
-    #                 # cùng thời gian
-    #                 if(classes[i].get_time().get_id() == classes[j].get_time().get_id()):
-    #                     # khác giảng viên 
-    #                     """ Vì khác giảng viên nên trùng môn học hay khác môn cũng không trùng lịch """
-    #                     if(classes[i].get_instructors().get_id() != classes[j].get_instructors().get_id()):
-    #                         self._fitness += 1
-    #                     # cùng giảng viên => trùng lịch 
-    #                 # khác thời gian 
-    #                 else:
-    #                     self._fitness += 1
-    #     return self._fitness
-    
+        
     def calculate_fitness(self):
         self._numberOfConflicts = 0
         classes = self.get_classes()
@@ -248,7 +215,7 @@ class Schedule:
                     if(classes[i].get_course() != classes[j].get_course()):
                         self._numberOfConflicts += 1
         # Đảm bảo cho giá trị fitness luôn nằm trong khoảng từ 0-1
-        return 1/(1.0*self._numberOfConflicts + 1)
+        return 1/((1.0*self._numberOfConflicts + 1))
 
     def get_fitness(self):
         if(self._isFitnessChanged == True):
@@ -620,39 +587,18 @@ class Population:
         return self._schedules
 
 class GA:
-    # Hàm chia nhỏ quần thể ra các mảng bằng nhau
-    def subdividing_population(self, population):
-        if(len(population) % 2 == 0):
-            length_cut = int(len(population)*(1/5))
-            population1 = population[:length_cut]
-            population2 = population[length_cut:2*length_cut]
-            population3 = population[2*length_cut:3*length_cut]
-            population4 = population[3*length_cut:4*length_cut]
-            population5 = population[4*length_cut:5*length_cut]
-            return [population1,population2,population3,population4,population5]
-        else:
-            length_cut = int(len(population)*(1/3))
-            population1 = population[:length_cut]
-            population2 = population[length_cut:2*length_cut]
-            population3 = population[2*length_cut:3*length_cut]
-            return [population1,population2,population3]
-    def calculate_fitness_array(self, array):
-        fitness = 0
-        for i in range (0,len(array)):
-            fitness += array[i].get_fitness()
-        return fitness  
+    def selection_tournament(self, population):
+        tournament = Population(0)
+        # Chọn ngẫu nhiên 5 schedule trong population
+        for i in range (0,5):
+            tournament.get_schedules().append(population.get_schedules()[random.randrange(0,len(population.get_schedules()))])
+        # Sắp xếp các schedule theo fitness giảm dần
+        tournament.get_schedules().sort(key=lambda x:float(x.get_fitness()), reverse=True)
+        # Trả về schedule có fitness cao nhất
+        return tournament.get_schedules()[0]
     
-    def selection(self, population):
-        # Tinh fitness cua tung schedule
-        for i in range (0,len(population)):
-            population[i].calculate_fitness()
-        arr_fitness = [schedule.get_fitness() for schedule in population]
-        index_of_best_schedule = max(range(len(arr_fitness)), key=arr_fitness.__getitem__)
-        return population[index_of_best_schedule]
-    
-    # schedule 1 and 2 - input
     def crossover(self, schedule1, schedule2):
-        schedule_crossover = Schedule(data)
+        schedule_crossover = Schedule(data).create_schedule()
         for i in range (0,len(schedule_crossover.get_classes())):
             if(random.random() > 0.5):
                 schedule_crossover.get_classes()[i] = schedule1.get_classes()[i]
@@ -661,13 +607,19 @@ class GA:
         return schedule_crossover
     
     # list schedule - input
-    def crossover_population(self, population):
-        population_crossover = Population(0)
-        for i in range (0,len(population.get_schedules())):
-            for j in range (i+1,len(population.get_schedules())):
-                population_crossover.get_schedules().append(self.crossover(population.get_schedules()[i],population.get_schedules()[j]))
-        return population_crossover
-        # chu y
+    def crossover_population(self, population,num_elite_schedule):
+        crossover_pop = Population(0)
+        # bổ sung cá thể tốt nhất vào quần thể mới
+        for i in range(num_elite_schedule):
+            crossover_pop.get_schedules().append(population.get_schedules()[0])
+        # Lai ghép các cá thể còn lại
+        i = num_elite_schedule
+        while i < len(population.get_schedules()):
+            schedule1 = self.selection_tournament(population)
+            schedule2 = self.selection_tournament(population)
+            crossover_pop.get_schedules().append(self.crossover(schedule1,schedule2))
+            i += 1
+        return crossover_pop
 
     def mutation(self, mutation_schedule,mutation_rate):
         schedule = Schedule(data).create_schedule()
@@ -682,15 +634,9 @@ class GA:
         return population
     
     # population là gồm nhiều schedule 
-    def run(self, population,mutation_rate):
-        # Chia population ra thành các mảng con bằng nhau
-        list_population_child = self.subdividing_population(population)
-        # Tìm giải pháp tốt nhất của từng mảng con
-        list_individual_fitness = Population(0)
-        for i in range (0,len(list_population_child)):
-            list_individual_fitness.get_schedules().append(self.selection(list_population_child[i])) 
+    def run(self, population,mutation_rate,num_elite_schedule):
         # Tiến hành lai ghép
-        crossover_pop = self.crossover_population(list_individual_fitness)
+        crossover_pop = self.crossover_population(population,num_elite_schedule)
         # Tiến hành đột biến
         mutation_pop = self.mutation_population(crossover_pop,mutation_rate)
         return mutation_pop
@@ -704,28 +650,26 @@ def main():
     num_generations = 0
     # Tỉ lệ đột biến
     mutation_rate = 10
+    # Số lượng chọn cá thể ưu tú để bỏ vào quần thể mới
+    num_elite_schedule = 1
 
     # Tạo quần thể ban đầu
     population = Population(population_size)
-    population_temp = 0
+    population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+    best_fitness = population.get_schedules()[0].get_fitness()
     # Khởi tạo và chạy thuật toán GA
     ga = GA()
     start_time = time.time()
 
-    population = ga.run(population.get_schedules(),mutation_rate)    
-    population_temp = population
-    population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
-    best_fitness = population.get_schedules()[0].get_fitness()
-    print(population.get_schedules())
-    print('Best schedule fitness: ', best_fitness)
-    # while(best_fitness != 1.0):
-    #     num_generations += 1
-    #     print('Số thế hệ: ', num_generations)
-    #     population = ga.run(population.get_schedules(),mutation_rate)    
-    #     population_temp = population
-    #     population_temp.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
-    #     best_fitness = population_temp.get_schedules()[0].get_fitness()
-    #     print('Best schedule fitness: ', best_fitness)
+    while(best_fitness != 1.000):
+        num_generations += 1
+        print('Số thế hệ: ', num_generations)
+        population = ga.run(population,mutation_rate,num_elite_schedule)    
+        population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+        best_fitness = population.get_schedules()[0].get_fitness()
+        print('Số lượng schedule trong quần thể: ', len(population.get_schedules()))
+        print('Best schedule fitness: ', best_fitness)
+
     end_time = time.time()
     print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
     print('Best schedule fitness: ', best_fitness)

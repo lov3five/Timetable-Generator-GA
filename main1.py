@@ -1,6 +1,6 @@
 import random
 import time
-
+import numpy as np
 from prettytable import PrettyTable
 
 # note 
@@ -179,6 +179,7 @@ class Schedule:
         self._classes = []
         self._fitness = 0
         self._numberOfConflicts = 0
+        self._isFitnessChanged = False
         self._idCLasses = 0
     
     # Create individual
@@ -192,7 +193,8 @@ class Schedule:
                 newClasses.set_time(random.choice(self._data.get_time_lessons()))
                 self._classes.append(newClasses)
         return self
-
+    def set_classes(self,classes):
+        self._classes = classes
     # Hàm tính độ thích nghi
     # def calculate_fitness(self):
     #     #self._numberOfConflicts = 0
@@ -618,76 +620,117 @@ class Population:
         return self._schedules
 
 class GA:
-    def selection(self, population):
-        # Chọn ngẫu nhiên 2 cá thể trong quần thể
-        schedule1 = random.choice(population)
-        schedule2 = random.choice(population)
-        # Chọn cá thể có fitness cao hơn
-        if schedule1.get_fitness() > schedule2.get_fitness():
-            return schedule1
-        return schedule2
+    # Hàm chia nhỏ quần thể ra các mảng bằng nhau
+    def subdividing_population(self, population):
+        if(len(population) % 2 == 0):
+            length_cut = int(len(population)*(1/5))
+            population1 = population[:length_cut]
+            population2 = population[length_cut:2*length_cut]
+            population3 = population[2*length_cut:3*length_cut]
+            population4 = population[3*length_cut:4*length_cut]
+            population5 = population[4*length_cut:5*length_cut]
+            return [population1,population2,population3,population4,population5]
+        else:
+            length_cut = int(len(population)*(1/3))
+            population1 = population[:length_cut]
+            population2 = population[length_cut:2*length_cut]
+            population3 = population[2*length_cut:3*length_cut]
+            return [population1,population2,population3]
+    def calculate_fitness_array(self, array):
+        fitness = 0
+        for i in range (0,len(array)):
+            fitness += array[i].get_fitness()
+        return fitness  
     
-    def crossover(self, parent1, parent2):
-        schedule_crossover = Schedule(data).create_schedule()
-        # Sinh ngẫu nhiên điểm cắt
-        cut_point = random.randint(1, len(parent1.get_classes()) - 1)
-        length1 = len(parent1.get_classes())
-        length2 = len(parent2.get_classes())
-        for i in range(0,len(parent1.get_classes())):
-            # Sinh con 1 từ phần đầu của parent1 và phần sau của parent2
-            classes1 = parent1.get_classes()[random.randint(0,length1)][:cut_point] + parent2.get_classes()[random.randint(0,length2)][cut_point:]
-            schedule_crossover[i].append(classes1)
+    def selection(self, population):
+        # Tinh fitness cua tung schedule
+        for i in range (0,len(population)):
+            population[i].calculate_fitness()
+        arr_fitness = [schedule.get_fitness() for schedule in population]
+        index_of_best_schedule = max(range(len(arr_fitness)), key=arr_fitness.__getitem__)
+        return population[index_of_best_schedule]
+    
+    # schedule 1 and 2 - input
+    def crossover(self, schedule1, schedule2):
+        schedule_crossover = Schedule(data)
+        for i in range (0,len(schedule_crossover.get_classes())):
+            if(random.random() > 0.5):
+                schedule_crossover.get_classes()[i] = schedule1.get_classes()[i]
+            else:
+                schedule_crossover.get_classes()[i] = schedule2.get_classes()[i]
         return schedule_crossover
     
+    # list schedule - input
     def crossover_population(self, population):
-        population_crossover = Population(0).get_schedules()
-        for i in range (0,len(population)):
-            schedule1 = self.selection(population)
-            schedule2 = self.selection(population)
-            population_crossover.append(self.crossover(schedule1,schedule2))
+        population_crossover = Population(0)
+        for i in range (0,len(population.get_schedules())):
+            for j in range (i+1,len(population.get_schedules())):
+                population_crossover.get_schedules().append(self.crossover(population.get_schedules()[i],population.get_schedules()[j]))
         return population_crossover
+        # chu y
 
-    def mutation(self, schedule_mutation,mutation_rate):
+    def mutation(self, mutation_schedule,mutation_rate):
         schedule = Schedule(data).create_schedule()
-        for i in range (schedule_mutation.get_classes()):
+        for i in range (0,len(mutation_schedule.get_classes())):
             if(mutation_rate < random.randint(0,100)):
-                schedule_mutation.get_classes()[i] = schedule.get_classes()[i]
-        return schedule_mutation
+                mutation_schedule.get_classes()[i] = schedule.get_classes()[i]
+        return mutation_schedule
 
-    def mutation_population (self, population,mutation_rate):
-        for i in range (0,len(population)):
-            self.mutation(population[i],mutation_rate)
+    def mutation_population (self, population, mutation_rate):
+        for i in range (0, len(population.get_schedules())):
+            population.get_schedules()[i] = self.mutation(population.get_schedules()[i],mutation_rate)
         return population
     
+    # population là gồm nhiều schedule 
     def run(self, population,mutation_rate):
-        return self.mutation_population(self.crossover_population(population),mutation_rate)
-        
+        # Chia population ra thành các mảng con bằng nhau
+        list_population_child = self.subdividing_population(population)
+        # Tìm giải pháp tốt nhất của từng mảng con
+        list_individual_fitness = Population(0)
+        for i in range (0,len(list_population_child)):
+            list_individual_fitness.get_schedules().append(self.selection(list_population_child[i])) 
+        # Tiến hành lai ghép
+        crossover_pop = self.crossover_population(list_individual_fitness)
+        # Tiến hành đột biến
+        mutation_pop = self.mutation_population(crossover_pop,mutation_rate)
+        return mutation_pop
 data = Data()
 def main():
     display = Display(data)
+    best_fitness = 0
     # xác định dân số ban đầu của quần thể
     population_size = 20
     # xác định số thế hệ (lần lặp lại) thuật toán
     num_generations = 0
-    print('Số thế hệ: ', num_generations)
-    best_fitness = 0
+    # Tỉ lệ đột biến
+    mutation_rate = 10
 
     # Tạo quần thể ban đầu
-    schedules = Population(population_size).get_schedules()
-    # display.print_schedule(schedules[0])
-    # # Khởi tạo và chạy thuật toán GA
-    # ga = GA()
-    # start_time = time.time()
-    # while(num_generations<= 100):
+    population = Population(population_size)
+    population_temp = 0
+    # Khởi tạo và chạy thuật toán GA
+    ga = GA()
+    start_time = time.time()
+
+    population = ga.run(population.get_schedules(),mutation_rate)    
+    population_temp = population
+    population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+    best_fitness = population.get_schedules()[0].get_fitness()
+    print(population.get_schedules())
+    print('Best schedule fitness: ', best_fitness)
+    # while(best_fitness != 1.0):
     #     num_generations += 1
     #     print('Số thế hệ: ', num_generations)
-    #     best_schedule = ga.run(schedules,10)
-    # end_time = time.time()
-    # print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
-    # display.print_schedule(best_schedule)
-    # print(schedules[0].get_classes()[random.randint(0,len(schedules[0].get_classes()))][:2] + schedules[1].get_classes()[random.randint(0,len(schedules[0].get_classes()))][2:])
-    display.print_schedule(schedules[0])
-    display.print_generation(schedules)
+    #     population = ga.run(population.get_schedules(),mutation_rate)    
+    #     population_temp = population
+    #     population_temp.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+    #     best_fitness = population_temp.get_schedules()[0].get_fitness()
+    #     print('Best schedule fitness: ', best_fitness)
+    end_time = time.time()
+    print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
+    print('Best schedule fitness: ', best_fitness)
+    display.print_schedule(population.get_schedules()[0])
+
 if __name__ == "__main__":
     main()
 

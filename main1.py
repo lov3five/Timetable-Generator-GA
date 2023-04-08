@@ -662,7 +662,7 @@ def main():
     ga = GA()
     start_time = time.time()
 
-    while(best_fitness != 1.000):
+    while(float(best_fitness) != 1.000):
         num_generations += 1
         print('Số thế hệ: ', num_generations)
         population = ga.run(population,mutation_rate,num_elite_schedule)    

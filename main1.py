@@ -262,62 +262,62 @@ class Data:
         course1 = Course("LHP1", "Toán cao cấp - 15A", 60,[self._instructors[0],self._instructors[4],self._instructors[5],self._instructors[7],self._instructors[9],self._instructors[15],self._instructors[20],self._instructors[21],self._instructors[26]])
         course2 = Course("LHP2", "Toán cao cấp - 15B", 70, [self._instructors[0],self._instructors[4],self._instructors[5],self._instructors[7],self._instructors[9],self._instructors[15],self._instructors[20],self._instructors[21],self._instructors[26]])
         course3 = Course("LHP3", "Kỹ thuật lập trình - 15A",60, [self._instructors[0],self._instructors[2],self._instructors[5],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[20],self._instructors[22],self._instructors[26]])
-        course4 = Course("LHP4", "Kỹ thuật lập trình - 15B", 70, [self._instructors[0],self._instructors[2],self._instructors[5],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[20],self._instructors[22],self._instructors[26]])
-        course5 = Course("LHP5", "Kỹ thuật lập trình - 15C", 70, [self._instructors[0],self._instructors[2],self._instructors[5],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[20],self._instructors[22],self._instructors[26]])
-        course6 = Course("LHP6", "Triển khai hệ thống an ninh - 15A", 70, [self._instructors[1],self._instructors[3],self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[14],self._instructors[20],self._instructors[21],self._instructors[27]])
-        course7 = Course("LHP7", "Triển khai hệ thống an ninh - 15B", 70, [self._instructors[1],self._instructors[3],self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[14],self._instructors[20],self._instructors[21],self._instructors[27]])
-        course8 = Course("LHP8", "Triển khai hệ thống an ninh - 15C", 70, [self._instructors[1],self._instructors[3],self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[14],self._instructors[20],self._instructors[21],self._instructors[27]])
+        course4 = Course("LHP4", "Kỹ thuật lập trình - 15B", 60, [self._instructors[0],self._instructors[2],self._instructors[5],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[20],self._instructors[22],self._instructors[26]])
+        course5 = Course("LHP5", "Kỹ thuật lập trình - 15C", 60, [self._instructors[0],self._instructors[2],self._instructors[5],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[20],self._instructors[22],self._instructors[26]])
+        course6 = Course("LHP6", "Triển khai hệ thống an ninh - 15A", 60, [self._instructors[1],self._instructors[3],self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[14],self._instructors[20],self._instructors[21],self._instructors[27]])
+        course7 = Course("LHP7", "Triển khai hệ thống an ninh - 15B", 60, [self._instructors[1],self._instructors[3],self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[14],self._instructors[20],self._instructors[21],self._instructors[27]])
+        course8 = Course("LHP8", "Triển khai hệ thống an ninh - 15C", 60, [self._instructors[1],self._instructors[3],self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[14],self._instructors[20],self._instructors[21],self._instructors[27]])
         course9 = Course("LHP9", "Cấu trúc dữ liệu và giải thuật - 15A", 65, [self._instructors[1],self._instructors[3],self._instructors[6],self._instructors[9],self._instructors[11],self._instructors[16],self._instructors[19],self._instructors[26],self._instructors[29]])
         course10 = Course("LHP10", "Cấu trúc dữ liệu và giải thuật - 15B", 65, [self._instructors[1],self._instructors[3],self._instructors[6],self._instructors[9],self._instructors[11],self._instructors[16],self._instructors[19],self._instructors[26],self._instructors[29]])
         course11 = Course("LHP11", "Cấu trúc dữ liệu và giải thuật - 15C", 65, [self._instructors[1],self._instructors[3],self._instructors[6],self._instructors[9],self._instructors[11],self._instructors[16],self._instructors[19],self._instructors[26],self._instructors[29]])
         course12 = Course("LHP12", "Định tuyến và chuyển mạch - 15A", 60, [self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[18],self._instructors[23],self._instructors[28],self._instructors[30]])
         course13 = Course("LHP13", "Định tuyến và chuyển mạch - 15B", 60, [self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[18],self._instructors[23],self._instructors[28],self._instructors[30]])
         course14 = Course("LHP14", "Định tuyến và chuyển mạch - 15C", 60,[self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[18],self._instructors[23],self._instructors[28],self._instructors[30]])
-        course15 = Course("LHP15", "Công nghệ mới - 15A", 80, [self._instructors[4],self._instructors[6],self._instructors[11],self._instructors[13],self._instructors[16],self._instructors[18],self._instructors[22],self._instructors[29],self._instructors[30]])
-        course16 = Course("LHP16", "Công nghệ mới - 15B", 80, [self._instructors[4],self._instructors[6],self._instructors[11],self._instructors[13],self._instructors[16],self._instructors[18],self._instructors[22],self._instructors[29],self._instructors[30]])
-        course17 = Course("LHP17", "Lý thuyết đồ thị - 15A", 70, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
-        course18 = Course("LHP18", "Lý thuyết đồ thị - 15B", 70, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
-        course19 = Course("LHP19", "Lý thuyết đồ thị - 15C", 70, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
-        course20 = Course("LHP20", "Phân tích và thiết kế hệ thống - 15A", 70, [self._instructors[2],self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[11],self._instructors[17],self._instructors[18],self._instructors[28],self._instructors[30]])
-        course21 = Course("LHP21", "Phân tích và thiết kế hệ thống - 15B", 70, [self._instructors[2],self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[11],self._instructors[17],self._instructors[18],self._instructors[28],self._instructors[30]])
-        course22 = Course("LHP22", "Trí tuệ nhân tạo - 15A", 80, [self._instructors[5],self._instructors[7],self._instructors[12],self._instructors[14],self._instructors[18],self._instructors[20],self._instructors[25],self._instructors[26],self._instructors[29]])
-        course23 = Course("LHP23", "Trí tuệ nhân tạo - 15B", 80, [self._instructors[5],self._instructors[7],self._instructors[12],self._instructors[14],self._instructors[18],self._instructors[20],self._instructors[25],self._instructors[26],self._instructors[29]])
-        course24 = Course("LHP24", "Hệ cơ sở dữ liệu - 15A", 70, [self._instructors[5],self._instructors[6],self._instructors[10],self._instructors[13],self._instructors[16],self._instructors[19],self._instructors[23],self._instructors[24],self._instructors[30]])
-        course25 = Course("LHP25", "Hệ cơ sở dữ liệu - 15B", 70, [self._instructors[5],self._instructors[6],self._instructors[10],self._instructors[13],self._instructors[16],self._instructors[19],self._instructors[23],self._instructors[24],self._instructors[30]])
-        course26 = Course("LHP26", "Hệ cơ sở dữ liệu - 15C", 70, [self._instructors[5],self._instructors[6],self._instructors[10],self._instructors[13],self._instructors[16],self._instructors[19],self._instructors[23],self._instructors[24],self._instructors[30]])
-        course27 = Course("LHP27", "Hệ thống và công nghệ web - 15A", 70, [self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[12],self._instructors[17],self._instructors[19],self._instructors[23],self._instructors[25],self._instructors[28]])
-        course28 = Course("LHP28", "Hệ thống và công nghệ web - 15B", 70, [self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[12],self._instructors[17],self._instructors[19],self._instructors[23],self._instructors[25],self._instructors[28]])
-        course29 = Course("LHP29", "Hệ thống và công nghệ web - 15C", 70, [self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[12],self._instructors[17],self._instructors[19],self._instructors[23],self._instructors[25],self._instructors[28]])
+        course15 = Course("LHP15", "Công nghệ mới - 15A", 65, [self._instructors[4],self._instructors[6],self._instructors[11],self._instructors[13],self._instructors[16],self._instructors[18],self._instructors[22],self._instructors[29],self._instructors[30]])
+        course16 = Course("LHP16", "Công nghệ mới - 15B", 65, [self._instructors[4],self._instructors[6],self._instructors[11],self._instructors[13],self._instructors[16],self._instructors[18],self._instructors[22],self._instructors[29],self._instructors[30]])
+        course17 = Course("LHP17", "Lý thuyết đồ thị - 15A", 60, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
+        course18 = Course("LHP18", "Lý thuyết đồ thị - 15B", 60, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
+        course19 = Course("LHP19", "Lý thuyết đồ thị - 15C", 60, [self._instructors[2],self._instructors[3],self._instructors[5],self._instructors[6],self._instructors[9],self._instructors[16],self._instructors[21],self._instructors[27],self._instructors[28]])
+        course20 = Course("LHP20", "Phân tích và thiết kế hệ thống - 15A", 60, [self._instructors[2],self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[11],self._instructors[17],self._instructors[18],self._instructors[28],self._instructors[30]])
+        course21 = Course("LHP21", "Phân tích và thiết kế hệ thống - 15B", 60, [self._instructors[2],self._instructors[4],self._instructors[7],self._instructors[8],self._instructors[11],self._instructors[17],self._instructors[18],self._instructors[28],self._instructors[30]])
+        course22 = Course("LHP22", "Trí tuệ nhân tạo - 15A", 65, [self._instructors[5],self._instructors[7],self._instructors[12],self._instructors[14],self._instructors[18],self._instructors[20],self._instructors[25],self._instructors[26],self._instructors[29]])
+        course23 = Course("LHP23", "Trí tuệ nhân tạo - 15B", 65, [self._instructors[5],self._instructors[7],self._instructors[12],self._instructors[14],self._instructors[18],self._instructors[20],self._instructors[25],self._instructors[26],self._instructors[29]])
+        course24 = Course("LHP24", "Hệ cơ sở dữ liệu - 15A", 60, [self._instructors[5],self._instructors[6],self._instructors[10],self._instructors[13],self._instructors[16],self._instructors[19],self._instructors[23],self._instructors[24],self._instructors[30]])
+        course25 = Course("LHP25", "Hệ cơ sở dữ liệu - 15B", 60, [self._instructors[5],self._instructors[6],self._instructors[10],self._instructors[13],self._instructors[16],self._instructors[19],self._instructors[23],self._instructors[24],self._instructors[30]])
+        course26 = Course("LHP26", "Hệ cơ sở dữ liệu - 15C", 60, [self._instructors[5],self._instructors[6],self._instructors[10],self._instructors[13],self._instructors[16],self._instructors[19],self._instructors[23],self._instructors[24],self._instructors[30]])
+        course27 = Course("LHP27", "Hệ thống và công nghệ web - 15A", 60, [self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[12],self._instructors[17],self._instructors[19],self._instructors[23],self._instructors[25],self._instructors[28]])
+        course28 = Course("LHP28", "Hệ thống và công nghệ web - 15B", 60, [self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[12],self._instructors[17],self._instructors[19],self._instructors[23],self._instructors[25],self._instructors[28]])
+        course29 = Course("LHP29", "Hệ thống và công nghệ web - 15C", 60, [self._instructors[5],self._instructors[8],self._instructors[11],self._instructors[12],self._instructors[17],self._instructors[19],self._instructors[23],self._instructors[25],self._instructors[28]])
         course30 = Course("LHP30", "Xác định yêu cầu hệ thống - 15A", 60, [self._instructors[6],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[17],self._instructors[21],self._instructors[24],self._instructors[27],self._instructors[30]])
         course31 = Course("LHP31", "Xác định yêu cầu hệ thống - 15B", 60, [self._instructors[6],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[17],self._instructors[21],self._instructors[24],self._instructors[27],self._instructors[30]])
         course32 = Course("LHP32", "Xác định yêu cầu hệ thống - 15C", 60, [self._instructors[6],self._instructors[7],self._instructors[10],self._instructors[15],self._instructors[17],self._instructors[21],self._instructors[24],self._instructors[27],self._instructors[30]])
-        course33 = Course("LHP33", "Mạng máy tính - 15A", 70, [self._instructors[6],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[19],self._instructors[24],self._instructors[25],self._instructors[29]])
-        course34 = Course("LHP34", "Mạng máy tính - 15B", 70, [self._instructors[6],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[19],self._instructors[24],self._instructors[25],self._instructors[29]])
-        course35 = Course("LHP35", "Cấu trúc rời rạc - 15A", 80, [self._instructors[6],self._instructors[7],self._instructors[15],self._instructors[16],self._instructors[19],self._instructors[21],self._instructors[22],self._instructors[27],self._instructors[28]])
-        course36 = Course("LHP36", "Cấu trúc rời rạc - 15B", 80, [self._instructors[6],self._instructors[7],self._instructors[15],self._instructors[16],self._instructors[19],self._instructors[21],self._instructors[22],self._instructors[27],self._instructors[28]])
-        course37 = Course("LHP37", "Cấu trúc rời rạc - 15C", 80, [self._instructors[6],self._instructors[7],self._instructors[15],self._instructors[16],self._instructors[19],self._instructors[21],self._instructors[22],self._instructors[27],self._instructors[28]])
-        course38 = Course("LHP38", "Vật lí đại cương - 15A", 70, [self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[14],self._instructors[17],self._instructors[20],self._instructors[23],self._instructors[26]])
-        course39 = Course("LHP39", "Vật lí đại cương - 15B", 70, [self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[14],self._instructors[17],self._instructors[20],self._instructors[23],self._instructors[26]])
-        course40 = Course("LHP40", "Vật lí đại cương - 15C", 70, [self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[14],self._instructors[17],self._instructors[20],self._instructors[23],self._instructors[26]])
-        course41 = Course("LHP41", "Công nghệ phần mềm - 15A", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
-        course42 = Course("LHP42", "Công nghệ phần mềm - 15B", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
-        course43 = Course("LHP43", "Công nghệ phần mềm - 15C", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
-        course44 = Course("LHP44", "Cơ sở dữ liệu - 15A", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
-        course45 = Course("LHP45", "Cơ sở dữ liệu - 15B", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
-        course46 = Course("LHP46", "Cơ sở dữ liệu - 15C", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
-        course47 = Course("LHP47", "Hệ điều hành - 15A", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[17],self._instructors[27]])
-        course48 = Course("LHP48", "Hệ điều hành - 15B", 70, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[17],self._instructors[27]])
-        course49 = Course("LHP49", "Logic học - 15A", 80, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
-        course50 = Course("LHP50", "Logic học - 15B", 80, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
-        course51 = Course("LHP51", "Logic học - 15C", 80, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
-        course52 = Course("LHP52", "Thực tập doanh nghiệp - 15A", 70, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
-        course53 = Course("LHP53", "Thực tập doanh nghiệp - 15B", 70, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
-        course54 = Course("LHP54", "Thực tập doanh nghiệp - 15C", 70, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
+        course33 = Course("LHP33", "Mạng máy tính - 15A", 60, [self._instructors[6],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[19],self._instructors[24],self._instructors[25],self._instructors[29]])
+        course34 = Course("LHP34", "Mạng máy tính - 15B", 60, [self._instructors[6],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[19],self._instructors[24],self._instructors[25],self._instructors[29]])
+        course35 = Course("LHP35", "Cấu trúc rời rạc - 15A", 65, [self._instructors[6],self._instructors[7],self._instructors[15],self._instructors[16],self._instructors[19],self._instructors[21],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course36 = Course("LHP36", "Cấu trúc rời rạc - 15B", 65, [self._instructors[6],self._instructors[7],self._instructors[15],self._instructors[16],self._instructors[19],self._instructors[21],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course37 = Course("LHP37", "Cấu trúc rời rạc - 15C", 65, [self._instructors[6],self._instructors[7],self._instructors[15],self._instructors[16],self._instructors[19],self._instructors[21],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course38 = Course("LHP38", "Vật lí đại cương - 15A", 60, [self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[14],self._instructors[17],self._instructors[20],self._instructors[23],self._instructors[26]])
+        course39 = Course("LHP39", "Vật lí đại cương - 15B", 60, [self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[14],self._instructors[17],self._instructors[20],self._instructors[23],self._instructors[26]])
+        course40 = Course("LHP40", "Vật lí đại cương - 15C", 60, [self._instructors[7],self._instructors[8],self._instructors[9],self._instructors[12],self._instructors[14],self._instructors[17],self._instructors[20],self._instructors[23],self._instructors[26]])
+        course41 = Course("LHP41", "Công nghệ phần mềm - 15A", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
+        course42 = Course("LHP42", "Công nghệ phần mềm - 15B", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
+        course43 = Course("LHP43", "Công nghệ phần mềm - 15C", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
+        course44 = Course("LHP44", "Cơ sở dữ liệu - 15A", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
+        course45 = Course("LHP45", "Cơ sở dữ liệu - 15B", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
+        course46 = Course("LHP46", "Cơ sở dữ liệu - 15C", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[16],self._instructors[18]])
+        course47 = Course("LHP47", "Hệ điều hành - 15A", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[17],self._instructors[27]])
+        course48 = Course("LHP48", "Hệ điều hành - 15B", 60, [self._instructors[8],self._instructors[9],self._instructors[10],self._instructors[11],self._instructors[13],self._instructors[14],self._instructors[15],self._instructors[17],self._instructors[27]])
+        course49 = Course("LHP49", "Logic học - 15A", 65, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
+        course50 = Course("LHP50", "Logic học - 15B", 65, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
+        course51 = Course("LHP51", "Logic học - 15C", 65, [self._instructors[9],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[30]])
+        course52 = Course("LHP52", "Thực tập doanh nghiệp - 15A", 60, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
+        course53 = Course("LHP53", "Thực tập doanh nghiệp - 15B", 60, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
+        course54 = Course("LHP54", "Thực tập doanh nghiệp - 15C", 60, [self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[24],self._instructors[25],self._instructors[27],self._instructors[29]])
         course55 = Course("LHP55", "Tiếng Việt thực hành - 15A", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
         course56 = Course("LHP56", "Tiếng Việt thực hành - 15B", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
         course57 = Course("LHP57", "Tiếng Việt thực hành - 15C", 60, [self._instructors[9],self._instructors[15],self._instructors[17],self._instructors[18],self._instructors[23],self._instructors[25],self._instructors[28],self._instructors[29],self._instructors[30]])
-        course58 = Course("LHP58", "Quản trị học - 15A", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
-        course59 = Course("LHP59", "Quản trị học - 15B", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course58 = Course("LHP58", "Quản trị học - 15A", 60, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
+        course59 = Course("LHP59", "Quản trị học - 15B", 60, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
         course60 = Course("LHP60", "Quản trị học - 15C", 70, [self._instructors[7],self._instructors[9],self._instructors[11],self._instructors[12],self._instructors[13],self._instructors[15],self._instructors[22],self._instructors[27],self._instructors[28]])
         
         
@@ -345,7 +345,7 @@ class Data:
         subject17 = Subject("MHP17", "Cơ sở dữ liệu",[course44,course45,course46], 60)
         subject18 = Subject("MHP18", "Hệ điều hành",[course47,course48], 60)
         subject19 = Subject("MHP19", "Logic học",[course49,course50,course51], 60)
-        subject20 = Subject("MHP20", "Thực tập doanh nghiệp",[course52,course53,course54], 90)
+        subject20 = Subject("MHP20", "Thực tập doanh nghiệp",[course52,course53,course54], 60)
         subject21 = Subject("MHP21", "Tiếng Việt thực hành",[course55,course56,course57], 60)
         subject22 = Subject("MHP22", "Quản trị học",[course58,course59,course60], 60)
 
@@ -402,7 +402,7 @@ class Data:
         ["GV5", "Đinh Văn Trường", "Nam", "dinhvantruong@gmail.com",
             "0935724661",  "707 Nguyễn Văn Trỗi"],
         ["GV6", "Lê Thị Hải", "Nữ", "lethihai@gmail.com",
-            "0954378162",  "808 Trần Quốc Toản"],
+            "0954378162",  "658 Trần Quốc Toản"],
         ["GV7", "Phạm Văn Hiếu", "Nam", "phamvanhieu@gmail.com",
             "0985461231",  "909 Nguyễn Văn Hữu"],
         ["GV8", "Nguyễn Thị Hạnh", "Nữ", "nguyenthihanh@gmail.com",
@@ -611,7 +611,7 @@ class GA:
         crossover_pop = Population(0)
         # bổ sung cá thể tốt nhất vào quần thể mới
         for i in range(num_elite_schedule):
-            crossover_pop.get_schedules().append(population.get_schedules()[0])
+            crossover_pop.get_schedules().append(population.get_schedules()[i])
         # Lai ghép các cá thể còn lại
         i = num_elite_schedule
         while i < len(population.get_schedules()):
@@ -624,12 +624,12 @@ class GA:
     def mutation(self, mutation_schedule,mutation_rate):
         schedule = Schedule(data).create_schedule()
         for i in range (0,len(mutation_schedule.get_classes())):
-            if(mutation_rate < random.randint(0,100)):
+            if(mutation_rate > random.randint(0,100)):
                 mutation_schedule.get_classes()[i] = schedule.get_classes()[i]
         return mutation_schedule
 
-    def mutation_population (self, population, mutation_rate):
-        for i in range (0, len(population.get_schedules())):
+    def mutation_population (self,population, mutation_rate,num_elite_schedule):
+        for i in range (num_elite_schedule, len(population.get_schedules())):
             population.get_schedules()[i] = self.mutation(population.get_schedules()[i],mutation_rate)
         return population
     
@@ -638,7 +638,7 @@ class GA:
         # Tiến hành lai ghép
         crossover_pop = self.crossover_population(population,num_elite_schedule)
         # Tiến hành đột biến
-        mutation_pop = self.mutation_population(crossover_pop,mutation_rate)
+        mutation_pop = self.mutation_population(crossover_pop,mutation_rate,num_elite_schedule)
         return mutation_pop
 data = Data()
 def main():
@@ -655,17 +655,17 @@ def main():
 
     # Tạo quần thể ban đầu
     population = Population(population_size)
-    population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+    population.get_schedules().sort(key=lambda x:float(x.get_fitness()), reverse=True)
     best_fitness = population.get_schedules()[0].get_fitness()
     # Khởi tạo và chạy thuật toán GA
     ga = GA()
     start_time = time.time()
 
-    while(best_fitness != 1.000):
+    while(float(best_fitness) != 1.000):
         num_generations += 1
         print('Số thế hệ: ', num_generations)
         population = ga.run(population,mutation_rate,num_elite_schedule)    
-        population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+        population.get_schedules().sort(key=lambda x:float(x.get_fitness()), reverse=True)
         best_fitness = population.get_schedules()[0].get_fitness()
         print('Số lượng schedule trong quần thể: ', len(population.get_schedules()))
         print('Best schedule fitness: ', best_fitness)
@@ -674,6 +674,7 @@ def main():
     print("Thời gian chạy thuật toán: ", end_time - start_time, " giây")
     print('Best schedule fitness: ', best_fitness)
     display.print_schedule(population.get_schedules()[0])
+    display.print_generation(population.get_schedules())
 
 if __name__ == "__main__":
     main()

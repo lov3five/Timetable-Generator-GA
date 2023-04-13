@@ -40,5 +40,4 @@ def connect_to_mysql(host, database_name, user_name, password):
             print("Connected to MySQL Server version ", db_Info)
             return mydb
         else:
-            print("Connection failed")
             return None

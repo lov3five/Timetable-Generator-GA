@@ -23,15 +23,15 @@ Timetable-Generator-GA made with ❤️ by [L-3012](https://github.com/lov3five)
     - Tạo một virtual environment (venv) để cài đặt các package vào venv đó. Điều này giúp tránh xung đột giữa các package khác nhau trong các dự án khác nhau. Hãy đọc phần sau để biết cách tạo và sử dụng một venv.
 
     - Cài đặt `pip` nếu nó chưa được cài đặt bằng cách chạy lệnh sau:
-```
-python3 -m ensurepip --default-pip
-```
+    ```
+    python3 -m ensurepip --default-pip
+    ```
 
     - Cài đặt các package từ requirements.txt bằng lệnh sau:
-```
-pip install -r requirements.txt
-```
-> Lệnh này sẽ cài đặt tất cả các package được liệt kê trong requirements.txt vào venv đang được sử dụng.
+    ```
+    pip install -r requirements.txt
+    ```
+    > Lệnh này sẽ cài đặt tất cả các package được liệt kê trong requirements.txt vào venv đang được sử dụng.
 
 ### Hướng dẫn sử dụng virtual environment (venv)
 - Virtual environment (venv) là một công cụ giúp cài đặt và quản lý các package Python trên một môi trường độc lập, tách biệt với các package Python cài đặt trên hệ thống mà không phụ thuộc vào chúng. Venv giúp cho việc phát triển các dự án Python dễ dàng và đảm bảo tính đồng nhất của môi trường phát triển và triển khai.

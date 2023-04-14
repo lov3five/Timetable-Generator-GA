@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS instructors (
 )
 """)
 
-# Create table instructors_subjects (Bảng trung gian thể hiện mối quan hệ N-N giữa instrucors và subjects)
+# Create table instructors_subjects (Bảng trung gian thể hiện mối quan hệ N-N giữa instructors và subjects)
 mycursor.execute("""
 CREATE TABLE IF NOT EXISTS instructors_subjects (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,

@@ -1,6 +1,5 @@
-from service import get_list_data_pretty_table, get_list_data
+from service import get_list_data
 
-# get_list_data_pretty_table('subjects')
 subjects_data = get_list_data('subjects')
 
 
@@ -13,7 +12,6 @@ def get_subject_by_id(id):
         if subject['id'] == id:
             return subject
 
-print(get_subject_by_id(3))
-    
+
 
 

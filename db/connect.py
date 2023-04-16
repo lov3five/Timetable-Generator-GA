@@ -19,9 +19,9 @@ if mydb is None:
 # Create a cursor object
 mycursor = mydb.cursor()
 
-# DATABASE OF TIMETABLE GENERATOR GA
-# Create table subjects
-# TODO: NULL
+# # DATABASE OF TIMETABLE GENERATOR GA
+# # Create table subjects
+# # TODO: NULL
 # mycursor.execute("""
 # CREATE TABLE IF NOT EXISTS subjects (
 #     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -52,22 +52,11 @@ mycursor = mydb.cursor()
 # )
 # """)
 
-# # Create table populations
-# mycursor.execute("""
-# CREATE TABLE IF NOT EXISTS populations (
-#     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-#     size INT NOT NULL,
-#     generation INT,
-#     fitness DECIMAL(10.3)
-# )   
-# """)
-
 # # TODO: NULL
 # # Create table schedules
 # mycursor.execute("""
 # CREATE TABLE IF NOT EXISTS schedules (
 #     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-#     population_id INT NOT NULL,
 #     fitness DECIMAL(10.3) NULL
 # )
 # """)
@@ -81,8 +70,7 @@ mycursor = mydb.cursor()
 #     max_students INT NOT NULL,
 #     instructor_subject_id INT NOT NULL,
 #     schedules_id INT ,
-#     FOREIGN KEY (instructor_subject_id) REFERENCES instructors_subjects(id),
-#     FOREIGN KEY (schedules_id) REFERENCES schedules(id)
+#     FOREIGN KEY (instructor_subject_id) REFERENCES instructors_subjects(id)
 # )
 # """)
 
@@ -102,17 +90,6 @@ mycursor = mydb.cursor()
 #     name VARCHAR(15) NOT NULL,
 #     capacity INT NOT NULL,
 #     type VARCHAR(15)
-# )
-# """)
-
-# Create table rooms_timelessons (Bảng trung gian thể hiện mối quan hệ N-N giữa rooms và timelessons)
-# mycursor.execute("""
-# CREATE TABLE IF NOT EXISTS rooms_timelessons (
-#     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-#     room_id INT NOT NULL,
-#     timelesson_id INT NOT NULL,
-#     FOREIGN KEY (room_id) REFERENCES rooms(id),
-#     FOREIGN KEY (timelesson_id) REFERENCES timelessons(id)
 # )
 # """)
 

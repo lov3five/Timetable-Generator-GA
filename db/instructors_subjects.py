@@ -14,3 +14,4 @@ def get_subject_by_instructor_id(id):
         instructor_subject = {'id': instructor_subject_tuple[0], 'instructor_id': instructor_subject_tuple[1], 'subject_id': instructor_subject_tuple[2]}
         if instructor_subject['instructor_id'] == int(id):
             return instructor_subject
+        

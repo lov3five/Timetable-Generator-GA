@@ -23,21 +23,24 @@ def pretty_table(name_table, cursor, result):
 
     """
     # Tạo đối tượng PrettyTable
-    x = PrettyTable()
+    try:
+        x = PrettyTable()
     
-    # Tiêu đề bảng
-    x.title = name_table.upper()
+        # Tiêu đề bảng
+        x.title = name_table.upper()
 
-    # Thiết lập các cột cho bảng
-    columns = [i[0] for i in cursor.description]
-    x.field_names = columns
+        # Thiết lập các cột cho bảng
+        columns = [i[0] for i in cursor.description]
+        x.field_names = columns
 
-    myresult = result
-    # Thêm từng bản ghi vào bảng
-    for row in myresult:
-        x.add_row(row)
+        myresult = result
+        # Thêm từng bản ghi vào bảng
+        for row in myresult:
+            x.add_row(row)
 
-    # In bảng với định dạng đẹp của PrettyTable
-    print(x)
+        # In bảng với định dạng đẹp của PrettyTable
+        print(x)
+    except Exception as e:
+        print('Error: ' + str(e))
 
 

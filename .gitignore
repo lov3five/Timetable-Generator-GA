@@ -43,3 +43,5 @@ dist/
 # Các file liên quan đến testing
 .tox/
 .coverage
+
+mysql/

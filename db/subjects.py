@@ -12,6 +12,3 @@ def get_subject_by_id(id):
         if subject['id'] == id:
             return subject
 
-
-
-

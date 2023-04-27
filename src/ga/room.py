@@ -1,10 +1,7 @@
 import os
 import sys
-# Thêm đường dẫn package `ga` vào `sys.path`
+# Thêm đường dẫn vào `sys.path`
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from db import rooms_db
-
 class Room:
     def __init__(self,id , name, capacity, type):
         self.id = id
@@ -27,12 +24,10 @@ class Room:
     def __str__(self):
         return f'Room: {self.name} - Capacity: {self.capacity} - Type: {self.type}'
 
-def init_rooms():
+def init_rooms(rooms_db):
     rooms = []
     for room in rooms_db:
         rooms.append(Room(room[0], room[1], room[2], room[3]))
     return rooms
 
-for room in init_rooms():
-    print(room)
 

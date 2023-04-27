@@ -1,3 +1,8 @@
+import os
+import sys
+# Thêm đường dẫn vào `sys.path`
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 class TimeLesson:
     def __init__(self,id ,uuid, period):
         self.id = id
@@ -15,3 +20,9 @@ class TimeLesson:
     
     def __str__(self):
         return "TimeLesson: " + self.id + " | " + self.uuid + " | " + self.period
+    
+def init_timelessons(timelessons_db):
+    timelessons = []
+    for timelesson in timelessons_db:
+        timelessons.append(TimeLesson(timelesson[0], timelesson[1], timelesson[2]))
+    return timelessons

@@ -1,9 +1,9 @@
 import os
 import sys
-# Thêm đường dẫn package `ga` vào `sys.path`
+# Thêm đường dẫn vào `sys.path`
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from db import get_all_courses
+from db import courses_db
 
 class Course:
     def __init__(self, course_id, course_name, max_students, instructor_id, instructor_name, subject_id, subject_name):
@@ -67,9 +67,3 @@ def init_courses(course_db):
     for course in course_db:
         courses.append(Course(course[0], course[1], course[2], course[3], course[4], course[5], course[6]))
     return courses
-
-course_db = get_all_courses()
-courses = init_courses(course_db)
-
-for course in courses:
-    print(course)

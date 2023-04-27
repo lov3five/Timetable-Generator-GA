@@ -145,3 +145,5 @@ def get_all_courses(format=False):
             return myresult
     except Exception as e:
         print('Error: ' + str(e))
+        
+courses_db = get_all_courses()

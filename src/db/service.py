@@ -1,15 +1,20 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from prettytable import PrettyTable
 
-from connect import mycursor
+from db.connect import mycursor
 
 # TABLE COURSES
-def get_list_data(name_table):
+def get_list_data(name_table, format=False):
     mycursor.execute("SELECT * FROM {}".format(name_table))
     myresult = mycursor.fetchall()
     if myresult == []:
         print(name_table + ' no data!!!')
         return
-    pretty_table(name_table, mycursor, myresult)
+    if format == True:
+        pretty_table(name_table, mycursor, myresult)
     return myresult
     
 def pretty_table(name_table, cursor, result):

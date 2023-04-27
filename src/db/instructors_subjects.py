@@ -1,4 +1,4 @@
-from service import get_list_data
+from db.service import get_list_data
 
 # get_list_data_pretty_table('instructors_subjects')
 instructors_subjects_data = get_list_data('instructors_subjects')

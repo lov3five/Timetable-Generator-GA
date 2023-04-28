@@ -19,8 +19,5 @@ class Classes:
     def get_timelesson(self):
         return self.timelesson
     
-    # def get_instuctor_id(self):
-    #     return self.instructor_id
-    
     def __str__(self):
-        return f'Class: {self.id} - Course: {self.course_id} - Room: {self.room} - Time: {self.timelesson}'
+        return f'Class: {self.id} - Course: {self.course} - Room: {self.room} - Time: {self.timelesson}'

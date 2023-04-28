@@ -2,10 +2,12 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import time
+from ga.population import Population
 def main():
     best_fitness = 0
     # xác định dân số ban đầu của quần thể
-    population_size = 20
+    population_size = 2
     # xác định số thế hệ (lần lặp lại) thuật toán
     num_generations = 0
     # Tỉ lệ đột biến
@@ -15,7 +17,8 @@ def main():
 
     # Tạo quần thể ban đầu
     population = Population(population_size)
-    population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
+    print(population.get_schedules())
+    #population.get_schedules().sort(key=lambda x: x.get_fitness(), reverse=True)
     best_fitness = population.get_schedules()[0].get_fitness()
     # Khởi tạo và chạy thuật toán GA
     ga = GA()

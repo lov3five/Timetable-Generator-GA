@@ -19,10 +19,11 @@ class TimeLesson:
         return self.period
     
     def __str__(self):
-        return "TimeLesson: " + self.id + " | " + self.uuid + " | " + self.period
+        return f'TimeLesson: {self.id} - UUID: {self.uuid} - Period: {self.period}'
     
 def init_timelessons(timelessons_db):
     timelessons = []
     for timelesson in timelessons_db:
         timelessons.append(TimeLesson(timelesson[0], timelesson[1], timelesson[2]))
     return timelessons
+

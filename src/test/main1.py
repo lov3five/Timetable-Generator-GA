@@ -605,6 +605,7 @@ class GA:
                 schedule_crossover.get_classes()[i] = schedule1.get_classes()[i]
             else:
                 schedule_crossover.get_classes()[i] = schedule2.get_classes()[i]
+        
         return schedule_crossover
     
     # list schedule - input

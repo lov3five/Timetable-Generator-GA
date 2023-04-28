@@ -62,8 +62,8 @@ class Course:
 
 
 # Hàm khởi tạo danh sách các khóa học
-def init_courses(course_db):
+def init_courses(courses_db):
     courses = []
-    for course in course_db:
+    for course in courses_db:
         courses.append(Course(course[0], course[1], course[2], course[3], course[4], course[5], course[6]))
     return courses

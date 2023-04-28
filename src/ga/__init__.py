@@ -6,5 +6,6 @@ from ga.population import Population
 from ga.course import init_courses
 from ga.room import init_rooms
 from ga.timelesson import init_timelessons
+from ga.schedule import *
 
 

@@ -138,10 +138,8 @@ def get_all_courses(format=False):
             return
         
         elif format == True:
-            print('Total courses: ' + str(len(myresult)))
             pretty_table('All courses', mycursor, myresult)
         else:
-            print('Total courses: ' + str(len(myresult)))
             return myresult
     except Exception as e:
         print('Error: ' + str(e))

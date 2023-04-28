@@ -1,3 +1,8 @@
+import os
+import sys
+# Thêm đường dẫn vào `sys.path`
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 class Instructor:
     def __init__(self, instructor_id, instructor_name, max_courses):
         self.instructor_id = instructor_id

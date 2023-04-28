@@ -35,7 +35,11 @@ class Population:
         return self.population_size
     
     def __str__(self):
-        return f"Population size: {self.population_size} -  - Fittest: {self.fittest}"
+        output = ""
+        for i in range(len(self.schedules) - 1):
+            output += str(self.schedules[i]) + "\n"
+        output += str(self.schedules[-1])
+        return output
 
 
 

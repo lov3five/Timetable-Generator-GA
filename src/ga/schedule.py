@@ -62,6 +62,6 @@ class Schedule:
                 if self.classes[i].get_timelesson() == self.classes[j].get_timelesson() and self.classes[i].get_id() != self.classes[j].get_id():
                     if self.classes[i].get_room() == self.classes[j].get_room():
                         self.conflict += 1
-                    if self.classes[i].get_course() == self.classes[j].get_course():
-                        self.conflict += 1
+                    # if self.classes[i].get_course() == self.classes[j].get_course():
+                    #     self.conflict += 1
         self.fitness = 1 / (self.conflict + 1)

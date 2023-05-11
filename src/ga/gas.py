@@ -12,16 +12,19 @@ class GA:
         self.population = population
         self.mutation_rate = mutation_rate # tỷ lệ đột biến
         self.crossover_rate = crossover_rate # tỷ lệ lai chéo
-        self.elitism_rate = elitism_rate # tỷ lệ elitism
+        self.elitism_rate = elitism_rate # tỷ lệ tinh túy
         
     def evolve(self):
         # Sort population by fitness
         self.population.sort(key=lambda x: x.get_fitness(), reverse=True)
 
         print('Số lượng schedule trong quần thể: ', len(self.population))
-        print('Best schedule fitness: ', self.population[0].get_fitness())
+        print('Best schedule fitness: ', round(self.population[0].get_fitness(), 3))
         print('Conflicts: ', self.population[0].get_conflict())
         print('Conflicts_2: ', self.population[1].get_conflict())
+        print('Conflicts_3: ', self.population[2].get_conflict())
+        print('Conflicts_4: ', self.population[3].get_conflict())
+        print('Conflicts_5: ', self.population[4].get_conflict())
         # Create new population
         new_population = Population(0).get_schedules()
         
@@ -44,12 +47,18 @@ class GA:
             if random.random() < self.mutation_rate:
                 self.mutate(individual)
         
+        # # Mutation
+        # for i in range(num_elite, len(new_population)):
+        #     if random.random() < self.mutation_rate:
+        #         self.mutate(new_population[i])
+            
+        
         # Update population
         self.population = new_population
     
     def select_parents(self):
         # Tournament selection
-        tournament_size = 5
+        tournament_size = 4
         tournament = random.sample(self.population, tournament_size)
         tournament.sort(key=lambda x: x.get_fitness(), reverse=True)
         parent1 = tournament[0]
@@ -57,7 +66,7 @@ class GA:
         return parent1, parent2
     
     def crossover(self, parent1, parent2):
-        # #Uniform Crossover
+        # # Uniform Crossover
         # schedule_crossover = Population(1).get_schedules()[0]
         # for i in range (0,len(schedule_crossover.get_classes())):
         #     if(random.random() > 0.5):
@@ -78,7 +87,7 @@ class GA:
     
         #Multi-point Crossover
         schedule_crossover = Population(1).get_schedules()[0]
-        num_points = 4
+        num_points = 9
         points = sorted(random.sample(range(len(schedule_crossover.get_classes())), num_points))
         index = 0
         for i in range (0,len(schedule_crossover.get_classes())):
@@ -95,8 +104,9 @@ class GA:
         schedule_mutate = Population(1).get_schedules()[0]
         for i in range (0,len(schedule_mutate.get_classes())):
             if(random.random() > self.mutation_rate):
-                schedule_mutate.get_classes()[i] = individual.get_classes()[i]
-        return schedule_mutate
+                individual.get_classes()[i] = schedule_mutate.get_classes()[i]
+        return individual
+
     
     def run(self,num_generations):
         for i in range (0,num_generations):

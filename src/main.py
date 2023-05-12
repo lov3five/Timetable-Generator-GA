@@ -10,14 +10,14 @@ from ga.gas import GA
 def main():
     best_fitness = 0
     # xác định dân số ban đầu của quần thể
-    population_size = 999
+    population_size = 789
     # xác định số thế hệ (lần lặp lại) thuật toán
     num_generations = 20000
     # Tỉ lệ đột biến
-    mutation_rate = 0.15
+    mutation_rate = 0.1 # 0.01 - 0.1
     # Tỉ lệ lai ghép
-    crossover_rate = 1
-    elitism_rate = 0.1
+    crossover_rate = 0.9  # 0.6 - 0.9
+    elitism_rate = 0.1 # 0.05 - 0.1
 
 
     # Tạo quần thể ban đầu

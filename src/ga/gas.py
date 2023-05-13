@@ -110,34 +110,6 @@ from db import info_ga
 #             print(info_ga)
 #             self.evolve()
 #         return self.population
-    
-    
-# Hàm kiểm tra phòng đang rỗng từ danh sách classes
-def list_room_is_free(list_room, list_classes):
-    list_room_is_free = []
-    for class_ in list_classes:
-        if class_.get_room() in list_room:
-            list_room_is_free.append(class_)
-    return list_room_is_free
-    
-# Hàm danh sách các lớp học có cùng thời gian
-def list_classes_by_timelesson(list_classes, timelesson):
-    list_classes_by_timelesson = []
-    for class_ in list_classes:
-        if class_.get_timelesson() == timelesson:
-            list_classes_by_timelesson.append(class_)
-    return list_classes_by_timelesson
-
-from db.rooms import rooms_db
-from db.timelessons import timelessons_db
-
-for room in rooms_db:
-    list_room = []
-    list_room.append(room[0])
-    
-for timelesson in timelessons_db:
-    list_timelesson = []
-    list_timelesson.append(timelesson[0])
 
 # Hàm can thiệp 
 class GA:
@@ -149,7 +121,8 @@ class GA:
         self.prev_conflict = None
         self.unchanged_count = 0
         
-    
+    def get_population(self):
+        return self.population
         
     def evolve(self):
         # Biến đếm số thế hệ liên tiếp mà giá trị conflict không thay đổi
@@ -159,23 +132,19 @@ class GA:
 
         print('Số lượng schedule trong quần thể: ', len(self.population))
         print('Best schedule fitness: ', round(self.population[0].get_fitness(), 3))
-        print('Conflicts:', [schedule.get_conflict() for schedule in self.population[:10]])
-        
+        print('Conflicts:', [schedule.get_conflict() for schedule in self.population[:20]])
         
         current_conflict = self.population[0].get_conflict()
+        print("==================================================")
         print('Số conflict trước của best schedule: ', self.prev_conflict)
         print('Số conflict hiện tại của best schedule: ', current_conflict)
         # Kiểm tra nếu số conflict không thay đổi qua 50 thế hệ
         if current_conflict == self.prev_conflict:
             self.unchanged_count += 1  
-            print('Số thế hệ conflict không thay đổi: ', self.unchanged_count) 
+            print('Số thế hệ không thay đổi conflict: ', self.unchanged_count) 
         else:
             self.unchanged_count = 0
         # Lưu số thế hệ khi conflict không thay đổi
-        if self.unchanged_count == 200:
-            for individual in self.population:
-                if random.random() < self.mutation_rate:
-                    self.hill_climbing_mutation(individual)
         self.prev_conflict = current_conflict
         
         # Create new population
@@ -187,45 +156,37 @@ class GA:
 
         #################
         """ CROSSOVER """
+        
         while len(new_population) < len(self.population):
             parent1, parent2 = self.select_parents()
-            
+            crossover_random = [self.crossover_uniform(parent1, parent2), self.crossover_single_point(parent1, parent2), self.crossover_multi_point(parent1, parent2)]
             if random.random() < self.crossover_rate:
-                if self.unchanged_count < 50:
-                    schedule_crossover = self.crossover_uniform(parent1, parent2)
+                # if self.unchanged_count < 50:
+                #     schedule_crossover = self.crossover_uniform(parent1, parent2)
                     
-                if self.unchanged_count >= 50 and self.unchanged_count < 150:
-                    schedule_crossover = self.crossover_single_point(parent1, parent2)
+                # if self.unchanged_count >= 50 and self.unchanged_count < 150:
+                #     schedule_crossover = self.crossover_single_point(parent1, parent2)
                     
-                if self.unchanged_count >= 150:
-                    schedule_crossover = self.crossover_multi_point(parent1, parent2)
+                # if self.unchanged_count >= 150:
+                #     schedule_crossover = self.crossover_multi_point(parent1, parent2)
+                schedule_crossover = random.choice(crossover_random)
             else:
                 schedule_crossover = parent1
             new_population.append(schedule_crossover)
             
         ################
         """ MUTATION """
-        if self.unchanged_count < 50:
-            for individual in new_population:
-                if random.random() < self.mutation_rate:
-                    self.mutate(individual)
-                    
-        if self.unchanged_count >= 50 and self.unchanged_count < 150:
-            for individual in new_population:
-                if random.random() < self.mutation_rate:
-                    self.mutate_nguoc(individual)
-                    
-        if self.unchanged_count >= 150 and self.unchanged_count < 200:
-            for individual in new_population:
-                if random.random() < self.mutation_rate:
-                    self.mutate_day(individual)
+        for individual in new_population:
+            mutate_random = [self.mutate(individual), self.mutate_nguoc(individual), self.mutate_day(individual)]
+            if random.random() < self.mutation_rate:
+                random.choice(mutate_random)
         # Update population
         self.population = new_population
         
     
     def select_parents(self):
         # Tournament selection
-        tournament_size = 5
+        tournament_size = 11
         tournament = random.choices(self.population, k=tournament_size)
         tournament.sort(key=lambda x: x.get_fitness(), reverse=True)
         parent1 = tournament[0]
@@ -315,6 +276,8 @@ class GA:
             print('Số thế hệ:', i)
             print(info_ga)
             self.evolve()
+            if self.population[0].get_conflict() == 0:
+                break
         return self.population
     
     

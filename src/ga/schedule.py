@@ -17,7 +17,8 @@ class Schedule:
         self.classes = []
         self.fitness = 0
         self.conflict = 0
-        self.calc_fitness()
+        self.is_fitness_changed = False
+        
         
     def get_courses(self):
         return self.courses
@@ -29,10 +30,15 @@ class Schedule:
         return self.timelessons
 
     def get_classes(self):
+        self.is_fitness_changed = True
         return self.classes
 
     def get_fitness(self):
+        if(self.is_fitness_changed):
+            self.fitness = self.calc_fitness()
+            self.is_fitness_changed = False
         return self.fitness
+        
     def get_conflict(self):
         return self.conflict
     
@@ -55,13 +61,19 @@ class Schedule:
 
     def calc_fitness(self):
         self.conflict = 0
+        classes = self.get_classes()
         for i in range(len(self.classes)):
-            if self.classes[i].get_room().get_room_capacity() < self.classes[i].get_course().get_max_students():
+            # print("A: ",self.classes[i].get_room().get_room_capacity())
+            # print("B: ",self.classes[i].get_course().get_max_students())
+            if classes[i].get_room().get_room_capacity() < classes[i].get_course().get_max_students():
                 self.conflict += 1
             for j in range(i+1, len(self.classes)):
-                if self.classes[i].get_timelesson() == self.classes[j].get_timelesson() and self.classes[i].get_id() != self.classes[j].get_id():
-                    if self.classes[i].get_room() == self.classes[j].get_room():
+                # Kiểm tra tại 1 phòng có 2 lớp học cùng 1 thời điểm không
+                if classes[i].get_timelesson() == classes[j].get_timelesson() and classes[i].get_id() != classes[j].get_id():
+                    if classes[i].get_room() == classes[j].get_room():
                         self.conflict += 1
-                    # if self.classes[i].get_course() == self.classes[j].get_course():
-                    #     self.conflict += 1
-        self.fitness = 1 / (self.conflict + 1)
+                # Kiểm tra 1 giảng viên có dạy 2 lớp cùng 1 lúc
+                if classes[i].get_timelesson() == classes[j].get_timelesson() and classes[i].get_id() != classes[j].get_id():
+                    if classes[i].get_course().get_instructor_id() == classes[j].get_course().get_instructor_id():
+                        self.conflict += 1
+        return 1 / (self.conflict + 1)

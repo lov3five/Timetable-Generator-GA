@@ -29,4 +29,4 @@ class Classes:
         self.timelesson = timelesson
         
     def __str__(self):
-        return f'Class: {self.id} - Course: {self.course} - Room: {self.room} - Time: {self.timelesson}'
+        return f'Class: {self.id} - {self.course} - {self.room} - {self.timelesson}'

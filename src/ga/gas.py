@@ -110,8 +110,33 @@ from db import info_ga
 #             print(info_ga)
 #             self.evolve()
 #         return self.population
-
+import pandas as pd
 # Hàm can thiệp 
+def add_dataframe_to_excel(file_path, new_sheet_name, df):
+    """
+    Thêm một DataFrame vào một trang tính mới của một tệp Excel đã có các trang tính.
+
+    Parameters:
+    file_path (str): Đường dẫn đến tệp Excel.
+    new_sheet_name (str): Tên của trang tính mới.
+    df (pandas.DataFrame): DataFrame cần thêm vào trang tính mới.
+
+    Returns:
+    pandas.DataFrame: DataFrame mới được tạo từ tệp Excel đã cập nhật.
+    """
+    # Ghi DataFrame mới vào trang tính mới của tệp Excel đã có sẵn
+    with pd.ExcelWriter(file_path,engine='openpyxl', mode='a') as writer:
+        df.to_excel(writer, sheet_name=new_sheet_name, index=False)
+
+    # Đọc tệp Excel đã cập nhật và trả về DataFrame mới
+    with pd.ExcelFile(file_path) as xls:
+        sheet_names = xls.sheet_names
+        dfs = []
+        for sheet_name in sheet_names:
+            df = pd.read_excel(xls, sheet_name)
+            dfs.append(df)
+    return pd.concat(dfs, ignore_index=True)
+
 class GA:
     def __init__(self, population, mutation_rate, crossover_rate, elitism_rate):
         self.population = population
@@ -120,6 +145,9 @@ class GA:
         self.elitism_rate = elitism_rate
         self.prev_conflict = None
         self.unchanged_count = 0
+        self.list_conflict = []
+        self.list_generation = []
+    
         
     def get_population(self):
         return self.population
@@ -127,8 +155,11 @@ class GA:
     def evolve(self):
         # Biến đếm số thế hệ liên tiếp mà giá trị conflict không thay đổi
         
+        
         # Sort population by fitness
         self.population.sort(key=lambda x: x.get_fitness(), reverse=True)
+        
+        self.list_conflict.append(self.population[0].get_conflict())
 
         print('Số lượng schedule trong quần thể: ', len(self.population))
         print('Best schedule fitness: ', round(self.population[0].get_fitness(), 3))
@@ -144,32 +175,25 @@ class GA:
             print('Số thế hệ không thay đổi conflict: ', self.unchanged_count) 
         else:
             self.unchanged_count = 0
+            
+        
         # Lưu số thế hệ khi conflict không thay đổi
         self.prev_conflict = current_conflict
         
         # Create new population
         new_population = Population(0).get_schedules()
         
-#         # Thêm các cá thể ưu tú vào quần thể mới
+        # Thêm các cá thể ưu tú vào quần thể mới
         num_elite = int(self.elitism_rate * len(self.population))
         new_population.extend(self.population[:num_elite])
 
         #################
         """ CROSSOVER """
-        
         while len(new_population) < len(self.population):
             parent1, parent2 = self.select_parents()
             crossover_random = [self.crossover_uniform(parent1, parent2), self.crossover_single_point(parent1, parent2), self.crossover_multi_point(parent1, parent2)]
             if random.random() < self.crossover_rate:
-                # if self.unchanged_count < 50:
-                #     schedule_crossover = self.crossover_uniform(parent1, parent2)
-                    
-                # if self.unchanged_count >= 50 and self.unchanged_count < 150:
-                #     schedule_crossover = self.crossover_single_point(parent1, parent2)
-                    
-                # if self.unchanged_count >= 150:
-                #     schedule_crossover = self.crossover_multi_point(parent1, parent2)
-                schedule_crossover = random.choice(crossover_random)
+                schedule_crossover = crossover_random[0]
             else:
                 schedule_crossover = parent1
             new_population.append(schedule_crossover)
@@ -177,16 +201,15 @@ class GA:
         ################
         """ MUTATION """
         for individual in new_population:
-            mutate_random = [self.mutate(individual), self.mutate_nguoc(individual), self.mutate_day(individual)]
             if random.random() < self.mutation_rate:
-                random.choice(mutate_random)
+                self.mutate(individual)
         # Update population
         self.population = new_population
         
     
     def select_parents(self):
         # Tournament selection
-        tournament_size = 11
+        tournament_size = 6
         tournament = random.choices(self.population, k=tournament_size)
         tournament.sort(key=lambda x: x.get_fitness(), reverse=True)
         parent1 = tournament[0]
@@ -218,7 +241,7 @@ class GA:
     def crossover_multi_point(self, parent1, parent2):
         #Multi-point Crossover
         schedule_crossover = Population(1).get_schedules()[0]
-        num_points = 10
+        num_points = 40
         points = sorted(random.sample(range(len(schedule_crossover.get_classes())), num_points))
         index = 0
         for i in range (0,len(schedule_crossover.get_classes())):
@@ -230,26 +253,13 @@ class GA:
                 schedule_crossover.get_classes()[i] = parent2.get_classes()[i]
         return schedule_crossover
 
+
     # Hàm đột biến
     def mutate(self, individual):
         schedule_mutate = Population(1).get_schedules()[0]
         for i in range(len(schedule_mutate.get_classes())):
             if random.random() < self.mutation_rate:
                 individual.get_classes()[i] = schedule_mutate.get_classes()[i]
-        return individual
-        
-    # Đột biến đảo ngược
-    def mutate_nguoc(self, individual):
-        start = random.randint(0, len(individual.get_classes())-2)
-        end = random.randint(start+1, len(individual.get_classes())-1)
-        individual.get_classes()[start:end+1] = individual.get_classes()[start:end+1][::-1]  # Đảo ngược giá trị của một phần của chuỗi gen
-        return individual
-    
-    # Đột biến đẩy
-    def mutate_day(self, individual):
-        for i in range(len(individual.get_classes())-1):
-            if random.random() < self.mutation_rate:
-                individual.get_classes()[i], individual.get_classes()[i+1] = individual.get_classes()[i+1], individual.get_classes()[i]  # Di chuyển giá trị của phần tử sang phần tử bên cạnh
         return individual
 
     def hill_climbing_mutation(self, individual):
@@ -275,9 +285,16 @@ class GA:
         for i in range(num_generations):
             print('Số thế hệ:', i)
             print(info_ga)
+            self.list_generation.append(i)
             self.evolve()
             if self.population[0].get_conflict() == 0:
+                list_conflict = self.list_conflict
+                list_gene = self.list_generation
+                add_dataframe_to_excel('output.xlsx', 'Conflict1', pd.DataFrame(list_conflict, columns=['conflict']))
+                add_dataframe_to_excel('output.xlsx', 'Generation1', pd.DataFrame(list_gene, columns=['Generation']))
                 break
+            
+                
         return self.population
     
     

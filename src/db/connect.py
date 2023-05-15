@@ -21,6 +21,12 @@ if mydb is None:
 # Create a cursor object
 mycursor = mydb.cursor()
 
+# mycursor.execute("""
+# CREATE TABLE IF NOT EXISTS classrooms (
+#     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+#     name VARCHAR(15) NOT NULL)
+# """)
+
 # # # DATABASE OF TIMETABLE GENERATOR GA
 # # Create table subjects
 # # TODO: NULL

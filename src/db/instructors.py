@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from db.service import get_list_data
 
 # (get_list_data_pretty_table('instructors'))
@@ -9,5 +13,28 @@ def get_instructor_by_id(id):
         if instructor['id'] == int(id):
             return instructor
 
-print(get_instructor_by_id(2))
+#print(get_instructor_by_id(2))
+
+from db.connect import mycursor
+from prettytable import PrettyTable
+
+def get_list_instructors():
+    mycursor.execute(
+    """
+SELECT r.id as "Mã phòng học", r.name as "Tên phòng học", r.capacity as "Sức chứa", r.`type` as "Loại phòng"
+FROM rooms r 
+    """
+    )
+
+    result = mycursor.fetchall()
+    
+    x = PrettyTable()
+    x.title = 'ROOMS'
+    columns = [i[0] for i in mycursor.description]
+    x.field_names = columns
+    for row in result:
+        x.add_row(row)
+    return x
+
+print(get_list_instructors())
 

@@ -1,4 +1,6 @@
-
+# import os
+# os.append.path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import pandas as pd
 def add_dataframe_to_excel(file_path, new_sheet_name, df):
     """
     Thêm một DataFrame vào một trang tính mới của một tệp Excel đã có các trang tính.
@@ -31,3 +33,6 @@ def add_dataframe_to_excel(file_path, new_sheet_name, df):
 #add_dataframe_to_excel('test.xlsx', 'Intructors', pd.DataFrame(INSTRUCTORS, columns=colums['Instructors']))
 
 #add_dataframe_to_excel('test.xlsx', 'TimeLessons', pd.DataFrame(TIMELESSONS, columns=colums['TimeLessons']))
+
+
+add_dataframe_to_excel('test.xlsx', 'Courses2', pd.DataFrame(COURSES, columns=['id']))

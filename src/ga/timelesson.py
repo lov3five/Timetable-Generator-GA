@@ -19,7 +19,7 @@ class TimeLesson:
         return self.period
     
     def __str__(self):
-        return f'TimeLesson: {self.id} - UUID: {self.uuid} - Period: {self.period}'
+        return f' {self.uuid} - {self.id} - {self.period}'
     
 def init_timelessons(timelessons_db):
     timelessons = []

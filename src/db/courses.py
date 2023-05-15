@@ -122,11 +122,12 @@ def get_all_courses(format=False):
     """
     try:
         sql = """ 
-            SELECT courses.id as course_id, courses.name as course_name, courses.max_students as max_students, instructors.id as instructor_id, instructors.name as instructor_name, subjects.id as subject_id, subjects.name as subject_name
+            SELECT courses.id as course_id, courses.name as course_name, courses.max_students as max_students, instructors.id as instructor_id, instructors.name as instructor_name, subjects.id as subject_id, subjects.name as subject_name, courses.classroom_id as classroom_id, classrooms.name as classroom_name
             FROM courses
             JOIN instructors_subjects ON courses.instructor_subject_id = instructors_subjects.id
             JOIN instructors ON instructors_subjects.instructor_id = instructors.id
             JOIN subjects ON instructors_subjects.subject_id = subjects.id
+            JOIN classrooms ON courses.classroom_id = classrooms.id
         """
         
         mycursor.execute(sql)

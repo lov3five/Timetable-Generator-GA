@@ -10,9 +10,7 @@ from ga.classes import Classes
 
 
 class Schedule:
-    # Counter_id: đếm số lượng Classes (PK)
-    counter_classes_id = 0
-    
+
     def __init__(self, courses, rooms, timelessons):
         self.courses = courses
         self.rooms = rooms
@@ -52,10 +50,10 @@ class Schedule:
         return output + " - Fitness: " + str(self.fitness)
     
     def init_schedule(self):
+        counter_classes_id = 0
         for i in range(len(self.courses)):
-            self.classes.append(Classes(self.counter_classes_id, self.courses[i], random.choice(self.rooms), random.choice(self.timelessons)))
-            # Counter_id: tăng lên 1
-            Schedule.counter_classes_id += 1
+            self.classes.append(Classes(counter_classes_id, self.courses[i], random.choice(self.rooms), random.choice(self.timelessons)))
+            counter_classes_id += 1
         self.calc_fitness()
         return self
 
@@ -71,7 +69,9 @@ class Schedule:
                     if classes[i].get_room() == classes[j].get_room():
                         self.conflict += 1
                 # Kiểm tra 1 giảng viên có dạy 2 lớp cùng 1 lúc
-                if classes[i].get_timelesson() == classes[j].get_timelesson() and classes[i].get_id() != classes[j].get_id():
                     if classes[i].get_course().get_instructor_id() == classes[j].get_course().get_instructor_id():
+                        self.conflict += 1
+                # # Kiểm tra nếu 1 lớp học có 2 môn học cùng 1 thời điểm
+                    if classes[i].get_course().get_classroom_id() == classes[j].get_course().get_classroom_id():
                         self.conflict += 1
         return 1 / (self.conflict + 1)

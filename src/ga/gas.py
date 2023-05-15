@@ -31,9 +31,9 @@ class GA:
         # Crossover
         while len(new_population) < len(self.population):
             parent1, parent2 = self.select_parents()
-            crossover_random = [self.crossover_uniform(parent1, parent2), self.crossover_single_point(parent1, parent2), self.crossover_multi_point(parent1, parent2)]
+            # crossover_random = [self.crossover_uniform(parent1, parent2), self.crossover_single_point(parent1, parent2), self.crossover_multi_point(parent1, parent2)]
             if random.random() < self.crossover_rate:
-                schedule_crossover = random.choice(crossover_random)
+                schedule_crossover = self.crossover_uniform(parent1, parent2)
             else:
                 schedule_crossover = parent1
             new_population.append(schedule_crossover)
@@ -90,7 +90,7 @@ class GA:
                 schedule_crossover.get_classes()[i] = parent2.get_classes()[i]
         return schedule_crossover
 
-    # Hàm đột biến
+    # Hàm đột biến ngẫu nhiên
     def mutate(self, individual):
         schedule_mutate = Population(1).get_schedules()[0]
         for i in range(len(schedule_mutate.get_classes())):
@@ -122,7 +122,7 @@ class GA:
             print('Số thế hệ: ', i)
             print(info_ga)
             self.evolve()
-            if self.population[0].get_conflict() == 0:
+            if self.population[0].get_conflict() == 10:
                 break
 
         return self.population

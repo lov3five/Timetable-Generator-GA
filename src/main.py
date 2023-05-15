@@ -7,7 +7,7 @@ import time
 
 from ga.gas import GA
 from ga.population import Population
-
+from utils.display_prettytable import display_result
 
 def main():
     best_fitness = 0
@@ -27,10 +27,13 @@ def main():
     ga = GA(population, mutation_rate, crossover_rate, elitism_rate)
     # Bắt đầu đếm thời gian
     start = time.time()
-    ga.run(num_generations)
+    pop_result = ga.run(num_generations)
     # Kết thúc đếm thời gian
     end = time.time()
     print('Thời gian chạy: ', end - start)
+    pop_result.sort(key=lambda x: x.get_fitness(), reverse=True)
+    print('Best schedule fitness: ', pop_result[0].get_fitness())
+    display_result(pop_result)
     
 if __name__ == "__main__":
     main()

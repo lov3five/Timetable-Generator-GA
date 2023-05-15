@@ -22,7 +22,7 @@ class Room:
         return self.type
     
     def __str__(self):
-        return f'Room: {self.name} - Capacity: {self.capacity} - Type: {self.type}'
+        return f'{self.name} - {self.capacity} - {self.type}'
 
 def init_rooms(rooms_db):
     rooms = []

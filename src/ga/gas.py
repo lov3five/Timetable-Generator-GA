@@ -112,23 +112,41 @@ from db import info_ga
 #         return self.population
 import pandas as pd
 # Hàm can thiệp 
-def add_dataframe_to_excel(file_path, new_sheet_name, df):
+def add_dataframe_to_excel(file_path, list_name_column, list_data, new_sheet_name=None):
     """
     Thêm một DataFrame vào một trang tính mới của một tệp Excel đã có các trang tính.
 
     Parameters:
     file_path (str): Đường dẫn đến tệp Excel.
-    new_sheet_name (str): Tên của trang tính mới.
-    df (pandas.DataFrame): DataFrame cần thêm vào trang tính mới.
+    list_name_column (list): Danh sách tên cột.
+    list_data (list): Danh sách dữ liệu.
+    new_sheet_name (str, optional): Tên của trang tính mới. Mặc định là None.
 
     Returns:
     pandas.DataFrame: DataFrame mới được tạo từ tệp Excel đã cập nhật.
     """
     # Ghi DataFrame mới vào trang tính mới của tệp Excel đã có sẵn
-    with pd.ExcelWriter(file_path,engine='openpyxl', mode='a') as writer:
-        df.to_excel(writer, sheet_name=new_sheet_name, index=False)
+    df = pd.DataFrame(list_data, columns=list_name_column)
+    if new_sheet_name is None:
+        new_sheet_name = 'Sheet1'
+        if new_sheet_name in pd.ExcelFile(file_path).sheet_names:
+            # Tạo tên trang tính mới dựa trên tên hiện tại
+            base_sheet_name = new_sheet_name
+            count = 2
+            while new_sheet_name in pd.ExcelFile(file_path).sheet_names:
+                new_sheet_name = base_sheet_name + str(count)
+                count += 1
 
-    # Đọc tệp Excel đã cập nhật và trả về DataFrame mới
+    if not os.path.isfile(file_path):
+        # Tạo tệp Excel mới nếu tệp không tồn tại
+        with pd.ExcelWriter(file_path) as writer:
+            df.to_excel(writer, sheet_name=new_sheet_name, index=False)
+    else:
+        # Ghi DataFrame mới vào trang tính mới của tệp Excel đã có sẵn
+        with pd.ExcelWriter(file_path, engine='openpyxl', mode='a') as writer:
+            df.to_excel(writer, sheet_name=new_sheet_name, index=False)
+
+    # Đọc tệp Excel đã cập nhật hoặc mới tạo và trả về DataFrame mới
     with pd.ExcelFile(file_path) as xls:
         sheet_names = xls.sheet_names
         dfs = []
@@ -191,9 +209,9 @@ class GA:
         """ CROSSOVER """
         while len(new_population) < len(self.population):
             parent1, parent2 = self.select_parents()
-            crossover_random = [self.crossover_uniform(parent1, parent2), self.crossover_single_point(parent1, parent2), self.crossover_multi_point(parent1, parent2)]
+            #crossover_random = [self.crossover_uniform(parent1, parent2), self.crossover_single_point(parent1, parent2), self.crossover_multi_point(parent1, parent2)]
             if random.random() < self.crossover_rate:
-                schedule_crossover = crossover_random[0]
+                schedule_crossover = self.crossover_uniform(parent1, parent2)
             else:
                 schedule_crossover = parent1
             new_population.append(schedule_crossover)
@@ -290,8 +308,8 @@ class GA:
             if self.population[0].get_conflict() == 0:
                 list_conflict = self.list_conflict
                 list_gene = self.list_generation
-                add_dataframe_to_excel('output.xlsx', 'Conflict1', pd.DataFrame(list_conflict, columns=['conflict']))
-                add_dataframe_to_excel('output.xlsx', 'Generation1', pd.DataFrame(list_gene, columns=['Generation']))
+                add_dataframe_to_excel('output.xlsx', ['conflict'], list_conflict, 'Conflict3')
+                add_dataframe_to_excel('output.xlsx', ['Generation'], list_gene, 'Generation3')
                 break
             
                 

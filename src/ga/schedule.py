@@ -63,7 +63,7 @@ class Schedule:
     def calc_fitness(self):
         self.conflict = 0
         classes = self.get_classes()
-        for i in range(len(self.classes)):
+        for i in range(0, len(self.classes)):
             if classes[i].get_room().get_room_capacity() < classes[i].get_course().get_max_students():
                 self.conflict += 1
             for j in range(i+1, len(self.classes)):

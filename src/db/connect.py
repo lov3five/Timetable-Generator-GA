@@ -22,6 +22,19 @@ if mydb is None:
 mycursor = mydb.cursor()
 
 # mycursor.execute("""
+# CREATE TABLE IF NOT EXISTS courses (
+#     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+#     name VARCHAR(30) NOT NULL,
+#     classroom_id VARCHAR(10) NOT NULL,
+#     instructor_id VARCHAR(10) NOT NULL,
+#     instructor_name VARCHAR(255) NOT NULL,
+#     subject_id VARCHAR(25) NOT NULL,
+#     subject_name VARCHAR(255) NOT NULL,
+#     max_number_of_students INT NOT NULL
+# )
+# """)
+
+# mycursor.execute("""
 # CREATE TABLE IF NOT EXISTS classrooms (
 #     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
 #     name VARCHAR(15) NOT NULL)

@@ -17,15 +17,16 @@ def to_acronym(string):
     return acronym
 
 
-def create_course(name, max_students, instructor_subject_id):
+def create_course(name, classroom_id, instructor_id, instructor_name, subject_id, subject_name, max_students):
     try:
-        sql = "INSERT INTO courses (name, max_students, instructor_subject_id) VALUES (%s, %s, %s)"
-        val = (name, max_students, instructor_subject_id)
+        sql = "INSERT INTO courses (name, classroom_id, instructor_id, instructor_name, subject_id, subject_name, max_number_of_students) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        val = (name, classroom_id, instructor_id, instructor_name, subject_id, subject_name, max_students)
         mycursor.execute(sql, val)
     except Exception as e:
         print('Error: ' + str(e))
     connect.mydb.commit()
     print(mycursor.rowcount, "record inserted.")
+
 
 # def update_course_by_id(id, object):
 #     name = object['name']
@@ -122,12 +123,9 @@ def get_all_courses(format=False):
     """
     try:
         sql = """ 
-            SELECT courses.id as course_id, courses.name as course_name, courses.max_students as max_students, instructors.id as instructor_id, instructors.name as instructor_name, subjects.id as subject_id, subjects.name as subject_name, courses.classroom_id as classroom_id, classrooms.name as classroom_name
-            FROM courses
-            JOIN instructors_subjects ON courses.instructor_subject_id = instructors_subjects.id
-            JOIN instructors ON instructors_subjects.instructor_id = instructors.id
-            JOIN subjects ON instructors_subjects.subject_id = subjects.id
-            JOIN classrooms ON courses.classroom_id = classrooms.id
+            select c.name as "course_id", c.classroom_id as "classroom_id", c.instructor_id as "instructor_id", c.instructor_name as "instructor_name", c.subject_id as "subject_id", 
+            c.subject_name as "subject_name", c.max_number_of_students as "max_students"
+            from courses c 
         """
         
         mycursor.execute(sql)
@@ -146,3 +144,4 @@ def get_all_courses(format=False):
         print('Error: ' + str(e))
         
 courses_db = get_all_courses()
+

@@ -6,16 +6,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from db import courses_db
 
 class Course:
-    def __init__(self, course_id, course_name, max_students, instructor_id, instructor_name, subject_id, subject_name, classroom_id, classroom_name):
+    def __init__(self, course_id, classroom_id, instructor_id, instructor_name, subject_id, subject_name, max_students):
         self.course_id = course_id
-        self.course_name = course_name
         self.max_students = max_students
         self.instructor_id = instructor_id
         self.instructor_name = instructor_name
         self.subject_id = subject_id
         self.subject_name = subject_name
         self.classroom_id = classroom_id
-        self.classroom_name = classroom_name
         
         
     def get_course_id(self):
@@ -23,12 +21,6 @@ class Course:
     
     def set_course_id(self, course_id):
         self.course_id = course_id
-    
-    def get_course_name(self):
-        return self.course_name
-    
-    def set_course_name(self, course_name):
-        self.course_name = course_name
     
     def get_max_students(self):
         return self.max_students
@@ -66,19 +58,13 @@ class Course:
     def set_classroom_id(self, classroom_id):
         self.classroom_id = classroom_id
     
-    def get_classroom_name(self):
-        return self.classroom_name
-    
-    def set_classroom_name(self, classroom_name):
-        self.classroom_name = classroom_name
-    
     def __str__(self):
-        return "Course: " + self.course_name + " | " + "Instructor: " + self.instructor_name + " | " + "Subject: " + self.subject_name + " | " + "Classroom: " + self.classroom_name
+        return "Course: " + self.course_id + " | " + "Instructor: " + self.instructor_name + " | " + "Subject: " + self.subject_name + " | " + "Classroom: " + self.classroom_id
 
 
 # Hàm khởi tạo danh sách các khóa học
 def init_courses(courses_db):
     courses = []
     for course in courses_db:
-        courses.append(Course(course[0], course[1], course[2], course[3], course[4], course[5], course[6], course[7], course[8]))
+        courses.append(Course(course[0], course[1], course[2], course[3], course[4], course[5], course[6]))
     return courses

@@ -308,8 +308,8 @@ class GA:
             if self.population[0].get_conflict() == 0:
                 list_conflict = self.list_conflict
                 list_gene = self.list_generation
-                add_dataframe_to_excel('output.xlsx', ['conflict'], list_conflict, 'Conflict3')
-                add_dataframe_to_excel('output.xlsx', ['Generation'], list_gene, 'Generation3')
+                #add_dataframe_to_excel('output.xlsx', ['conflict'], list_conflict, 'Conflict3')
+                #add_dataframe_to_excel('output.xlsx', ['Generation'], list_gene, 'Generation3')
                 break
             
                 

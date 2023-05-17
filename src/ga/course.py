@@ -3,7 +3,6 @@ import sys
 # Thêm đường dẫn vào `sys.path`
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from db import courses_db
 
 class Course:
     def __init__(self, course_id, classroom_id, instructor_id, instructor_name, subject_id, subject_name, max_students):

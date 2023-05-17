@@ -6,9 +6,11 @@ import time
 
 from ga.population import Population
 from ga.gas import GA
+from ga.schedule import *
+from utils import display_result, sound_notification
 
-from utils import sound_notification
-from utils import display_result
+
+
 
 from prettytable import PrettyTable
 

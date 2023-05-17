@@ -1,12 +1,12 @@
 import os
 import sys
-from db import connect
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-from db.connect import mycursor
-import random
-from db.service import get_list_data, pretty_table
+
+#from db.connect import *
+from db import pretty_table, mycursor
+
 
 
 def to_acronym(string):
@@ -26,6 +26,18 @@ def create_course(name, classroom_id, instructor_id, instructor_name, subject_id
         print('Error: ' + str(e))
     connect.mydb.commit()
     print(mycursor.rowcount, "record inserted.")
+    
+def delete_all_course():
+    try:
+        sql = "DELETE FROM courses"
+        mycursor.execute(sql)
+    except Exception as e:
+        print('Error: ' + str(e))
+    connect.mydb.commit()
+    print(mycursor.rowcount, "record(s) deleted")
+    
+#delete_all_course()
+
 
 
 # def update_course_by_id(id, object):
@@ -104,7 +116,7 @@ def get_courses_by_instructor_id(id):
         name_table = "Courses of instructor"
         if myresult == []:
             print(name_table + ' no data!!!')
-            return
+            return myresult
         else:
             print('Total courses of instructor: ' + str(len(myresult)))
             pretty_table(name_table, mycursor, myresult)
@@ -133,8 +145,8 @@ def get_all_courses(format=False):
         myresult = mycursor.fetchall()
         
         if myresult == []:
-            print('No data!!!')
-            return
+            #print('No data!!!')
+            return myresult
         
         elif format == True:
             pretty_table('All courses', mycursor, myresult)
@@ -142,6 +154,6 @@ def get_all_courses(format=False):
             return myresult
     except Exception as e:
         print('Error: ' + str(e))
-        
+
 courses_db = get_all_courses()
 

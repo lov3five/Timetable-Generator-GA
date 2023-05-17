@@ -5,9 +5,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 from prettytable import PrettyTable
 
-from src import print_list_one_column
-from src import create_course
+from utils import print_list_one_column
 
+from 
 
 # Đọc tệp tin template.xlsx
 template_df = pd.read_excel('./file/template/course_template.xlsx')
